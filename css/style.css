@@ -13,10 +13,10 @@ html, body {
 
 /* Change the layout__content class to Flex (instead of inline-block) to allow spacer to work. */
 .mdl-layout__content {
-    display: -webkit-flex;
-	display: flex;
-    -webkit-flex-direction: column;
-	        flex-direction: column;
+    display: -webkit-flex !important;
+	display: flex !important;
+    -webkit-flex-direction: column !important;
+	        flex-direction: column !important;
 }
 
 .navigation-bar {
@@ -52,4 +52,11 @@ html, body {
   font-size: 24px;
   color: rgba(255, 255, 255, 0.56);
   margin-right: 32px;
+}
+
+.current {
+	background-color: #EEE;
+	border-width: 1px 0;
+	border-style: solid;
+	border-color: #DDD;
 }

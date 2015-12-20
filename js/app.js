@@ -1,5 +1,6 @@
 var entropicsApp = angular.module('entropicsApp', ['ngRoute']);
 
+// Route provider used to redirect the user on the correct page
 entropicsApp.config(function($routeProvider) {
 	$routeProvider.
 		when('/home', {
@@ -25,6 +26,7 @@ entropicsApp.config(function($routeProvider) {
 		otherwise({ redirectTo: '/home' });
 });
 
+// Used to allow every page to set its own title
 entropicsApp.factory('Page', function() {
 	var title = 'default';
 	var logo = '';

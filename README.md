@@ -9,3 +9,4 @@ It is fully responsive and it is completely made in material design, because we 
 This website uses:
 - **MDL (Material Design Lite)**, a library made by Google to give the website a Material Design look and feel
 - **AngularJS**, a framework made by Google to create nice single page applications
+- **JQuery**, a library that allows easier HTML document elements manipulation
