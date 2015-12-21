@@ -8,7 +8,7 @@ entropicsApp.config(function($routeProvider) {
 			controller: 'homeController'
 		}).
 		when('/servizi', {
-			templateUrl: 'html/servizi.html',
+			templateUrl: 'html/services.html',
 			controller: 'servicesController'
 		}).
 		when('/film', {

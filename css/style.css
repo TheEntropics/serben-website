@@ -60,3 +60,7 @@ html, body {
 	border-style: solid;
 	border-color: #DDD;
 }
+
+.mdl-mini-footer {
+	padding: 20px 0 20px 20px !important;
+}
