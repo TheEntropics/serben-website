@@ -88,7 +88,7 @@
 						<!-- Add spacer, to align navigation to the right -->
 						<div class="mdl-layout-spacer"></div>
 						<!-- Display the search bar only on services, films and music pages -->
-						<div data-ng-if="(Page.getTitle() != 'Home') && (Page.getTitle() != 'Informazioni')" class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floatidata-ng-label mdl-textfield--align-right">
+						<div data-ng-show="(Page.getTitle() != 'Home') && (Page.getTitle() != 'Informazioni')" class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floatidata-ng-label mdl-textfield--align-right">
 							<label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
 								<i class="material-icons">search</i>
 							</label>
