@@ -1,4 +1,4 @@
-var entropicsApp = angular.module('entropicsApp', ['ngRoute']);
+var entropicsApp = angular.module('entropicsApp', ['ngRoute', 'ngResource']);
 
 // Route provider used to redirect the user on the correct page
 entropicsApp.config(function($routeProvider) {
@@ -7,15 +7,15 @@ entropicsApp.config(function($routeProvider) {
 			templateUrl: 'html/home.html',
 			controller: 'homeController'
 		}).
-		when('/servizi', {
+		when('/services', {
 			templateUrl: 'html/services.html',
 			controller: 'servicesController'
 		}).
-		when('/film', {
+		when('/films', {
 			templateUrl: 'html/films.html',
 			controller: 'filmsController'
 		}).
-		when('/musica', {
+		when('/music', {
 			templateUrl: 'html/music.html',
 			controller: 'musicController'
 		}).
@@ -28,7 +28,7 @@ entropicsApp.config(function($routeProvider) {
 
 // Used to allow every page to set its own title
 entropicsApp.factory('Page', function() {
-	var title = 'default';
+	var title = '';
 	var logo = '';
 	return {
 		getTitle: function() { return title; },
@@ -37,3 +37,13 @@ entropicsApp.factory('Page', function() {
 		setLogo: function(newLogo) { logo = newLogo; }
 	};
 });
+
+// Translation service
+entropicsApp.service('translationService', ['$resource', function($resource) {  
+	this.getTranslation = function($scope, language) {
+		var languageFilePath = 'lang/locale_' + language + '.json';
+		$resource(languageFilePath).get(function (data) {
+			$scope.translation = data;
+		});
+	};
+}]);

@@ -1,6 +1,4 @@
 $(function() {
-	$("#copyright").html("&copy; " +  new Date().getFullYear() + " The Entropics. Tutti i diritti riservati");
-
 	$("html").hammer().on('swiperight', function (e) {
 		var endPoint = e.gesture.pointers[0].pageX;
 		var distance = e.gesture.distance;

@@ -1,0 +1,63 @@
+{
+	"home": {
+		"title": "Home",
+		"content": {}
+	},
+
+	"services": {
+		"title": "Services",
+		"games": "Games",
+		"other": "Other services",
+		"content": {
+			"name": "Name",
+			"status": {
+				"title": "Status",
+				"online": "Online",
+				"offline": "Offline",
+				"gamenotfound": "Game not found"
+			}
+		}
+	},
+
+	"films": {
+		"title": "Films",
+		"content": {
+			"title": "Title",
+			"producer": "Producer",
+			"duration": "Duration",
+			"year": "Year"
+		}
+	},
+
+	"music": {
+		"title": "Music",
+		"content": {}
+	},
+
+	"info": {
+		"title": "Informazioni",
+		"content": {
+			"whoweare": {
+				"title": "Who we are",
+				"description": [
+					"We are a group of students of the 5CIA of the ITIS J.F. Kennedy in Pordenone who decided to rent a server.",
+					"We made this decision mainly for having a private server of our favourite videogames,",
+					"but then we implemented a series of awesome services (like the forum, the mail server, ecc...)."
+				]
+			},
+			"howtojoin": {
+				"title": "How to join us",
+				"description": {
+					"header": "You don't have to do nothing particularly complicated to join us, you just have to:",
+					"points": [
+						"Agree to The Entropics official regulation",
+						"Be accepted by the other members",
+						"Pay a monthly fee which is calculated based on the current number of members"
+					]
+				}
+			}
+		}
+	},
+
+	"copyright": "All rights reserved."
+}
