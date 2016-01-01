@@ -43,7 +43,7 @@
 		<!-- /Favicon -->
 
 		<!-- Title of the page. Changes dynamically according to the current page -->
-		<title>{{Page.getTitle()}} - The Entropics</title>
+		<title data-ng-bind="Page.getTitle() + ' - The Entropics'">The Entropics</title>
 
 		<!-- CSS -->
 			<!-- Roboto font -->
@@ -83,8 +83,11 @@
 			<script src="js/main.js" type="text/javascript"></script>
 		<!-- /Javascript -->
 	</head>
-	<body>
-		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	<body data-ng-class="(windowStatus == 'onblur') ? 'blurred' : ''">
+		<div id="loading">
+			<div class="loading-spinner mdl-spinner mdl-js-spinner is-active"></div>
+		</div>
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" style="display:none;">
 			<!-- Header -->
 				<header class="mdl-layout__header mdl-layout__header--waterfall">
 					<div class="mdl-layout__header-row">
@@ -120,10 +123,10 @@
 			<main class="mdl-layout__content">
 				<!-- Main content -->
 					<div class="page-content">
-						<div class="mdl-grid">
+						<div class="main-container mdl-grid">
+							<div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
 							<!-- The content of the page will be displayed in this div -->
-							<!-- class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp" -->
-							<div data-ng-view></div>
+							<div data-ng-class="isSmallScreen ? '': 'main-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col'" data-ng-view></div>
 						</div>
 					</div>
 				<!-- /Main content -->
@@ -132,11 +135,12 @@
 				<!-- Footer -->
 					<footer class="mdl-mini-footer">
 						<div class="mdl-mini-footer--middle-section">
-							<div class="mdl-logo" id="copyright">&copy; The Entropics. Tutti i diritti riservati.</div>
+							<div class="mdl-logo" id="copyright"></div>
 						</div>
 					</footer>
 				<!-- /Footer -->
 			</main>
 		</div>
+		<div id="loaded" ng-cloak>{{loaded}}</div>
 	</body>
 </html>

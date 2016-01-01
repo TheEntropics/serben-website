@@ -1,7 +1,8 @@
 var entropicsApp = angular.module('entropicsApp', ['ngRoute', 'ngResource']);
 
 // Route provider used to redirect the user on the correct page
-entropicsApp.config(function($routeProvider) {
+entropicsApp.config(function($routeProvider, $provide) {
+	console.log("loading");
 	$routeProvider.
 		when('/home', {
 			templateUrl: 'html/home.html',
@@ -24,6 +25,31 @@ entropicsApp.config(function($routeProvider) {
 			controller: 'infoController'
 		}).
 		otherwise({ redirectTo: '/home' });
+
+	$provide.decorator("$interpolate", function($delegate) {
+		function wrap() {
+			var x = $delegate.apply(this, arguments);
+			if (x) {
+				var binding = arguments[0];
+				return function() {
+					var result = x.apply(this, arguments);
+					if((binding == "{{loaded}}") && (result == "loaded")) {
+						console.log("loaded");
+						$("#loaded").remove();
+						$("#loading").remove();
+						$(".mdl-layout.mdl-js-layout.mdl-layout--fixed-header").slideDown();
+					}
+					return result;
+				};
+			}
+		}
+		angular.extend(wrap, $delegate);
+		return wrap;
+	});
+});
+
+entropicsApp.run(function($rootScope) {
+	$rootScope.loaded = "loaded";
 });
 
 // Used to allow every page to set its own title

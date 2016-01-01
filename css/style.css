@@ -1,14 +1,43 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 html, body {
-  font-family: 'Roboto', 'Helvetica', sans-serif;
+	font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+.blurred {
+	transition: 5s all;
+	filter: blur(5px) grayscale(0.5);
+	-webkit-filter: blur(5px) grayscale(0.5);
+}
+
+#loading {
+	position: fixed;
+	width: 45px;
+	height: 45px;
+	top: calc(50% - 22.5px);
+	left: calc(50% - 22.5px);
+	border-radius: 45px;
+	box-shadow: 0 0 6px rgba(30, 30, 30, 0.4);
+}
+
+.loading-spinner {
+	margin: 8.5px;
 }
 
 .te-logo {
 	width: 40px;
 	height: 40px;
 	margin: 10px 22.5px 10px -10px;
-	border-radius: 50px;
+	border-radius: 40px;
 	border: 2px solid #2C3E50;
+	transition: .4s all;
 /*	box-shadow: 2px 2px 2px rgba(30, 30, 30, 0.5);*/
+}
+
+.te-logo:hover, .te-logo:focus {
+	transform: scale(1.05) rotateZ(360deg);
 }
 
 /* Change the layout__content class to Flex (instead of inline-block) to allow spacer to work. */
@@ -17,6 +46,17 @@ html, body {
 	display: flex !important;
     -webkit-flex-direction: column !important;
 	        flex-direction: column !important;
+}
+
+.main-container {
+	max-width: 1600px;
+	width: calc(100% - 16px);
+	margin: 0 auto;
+}
+
+.main-content {
+	border-radius: 2px;
+	padding: 80px 56px;
 }
 
 .navigation-bar {

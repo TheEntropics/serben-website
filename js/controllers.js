@@ -1,6 +1,26 @@
-entropicsApp.controller('mainController', ['$scope', 'Page', 'translationService', function($scope, Page, translationService) {
+entropicsApp.controller('mainController', ['$scope', '$window', 'Page', 'translationService', function($scope, $window, Page, translationService) {
 	$scope.Page = Page;
 
+	// Handles onfocus and onblur events
+	$scope.windowStatus = "fred";
+	$window.onfocus = function() {
+		$scope.windowStatus = "onfocus";
+		$scope.$apply();
+	}
+	$window.onblur = function() {
+		$scope.windowStatus = "onblur";
+		$scope.$apply();
+	}
+
+	// Handles window resizing
+	$scope.isSmallScreen = (document.documentElement.clientWidth <= 1024);
+	$window.onresize = function(event) {
+		if(document.documentElement.clientWidth <= 1024)
+			$scope.isSmallScreen = true;
+		else
+			$scope.isSmallScreen = false;
+		$scope.$apply();
+	}
 	// Get the user language
 	var lang = navigator.language || navigator.userLanguage;
 	// Get the file with the right translation
