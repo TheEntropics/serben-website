@@ -34,6 +34,16 @@
 		"content": {}
 	},
 
+	"downloads": {
+		"title": "Download",
+		"content": {}
+	},
+
+	"members": {
+		"title": "Members",
+		"content": {}
+	},
+
 	"info": {
 		"title": "Informazioni",
 		"content": {
@@ -57,6 +67,19 @@
 				}
 			}
 		}
+	},
+
+	"error": {
+		"title": "Errore",
+		"description": "Non puoi accedere a questa sezione del sito."
+	},
+
+	"login": {
+		"title": "Effettua il login",
+		"username": "Nome utente",
+		"password": "Password",
+		"cancel": "Annulla",
+		"login": "Entra"
 	},
 
 	"copyright": "Tutti i diritti riservati."

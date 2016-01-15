@@ -20,6 +20,14 @@ entropicsApp.config(function($routeProvider, $provide) {
 			templateUrl: 'html/music.html',
 			controller: 'musicController'
 		}).
+		when('/downloads', {
+			templateUrl: 'html/downloads.html',
+			controller: 'downloadsController'
+		}).
+		when('/members', {
+			templateUrl: 'html/members.html',
+			controller: 'membersController'
+		}).
 		when('/info', {
 			templateUrl: 'html/info.html',
 			controller: 'infoController'
@@ -73,3 +81,14 @@ entropicsApp.service('translationService', ['$resource', function($resource) {
 		});
 	};
 }]);
+
+entropicsApp.directive('backImg', function() {
+	return function(scope, element, attrs) {
+		var url = attrs.backImg;
+		element.css({
+			'background-image' : 'url(' + url + ')',
+			'background-size' : 'cover',
+			'background-position' : '50% 50%'
+		});
+	};
+});

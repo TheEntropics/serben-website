@@ -34,6 +34,16 @@
 		"content": {}
 	},
 
+	"downloads": {
+		"title": "Downloads",
+		"content": {}
+	},
+
+	"members": {
+		"title": "Membri",
+		"content": {}
+	},
+	
 	"info": {
 		"title": "Informazioni",
 		"content": {
@@ -57,6 +67,19 @@
 				}
 			}
 		}
+	},
+
+	"error": {
+		"title": "Error",
+		"description": "You cannot access to this website section."
+	},
+
+	"login": {
+		"title": "Login",
+		"username": "Username",
+		"password": "Password",
+		"cancel": "Cancel",
+		"login": "Log in"
 	},
 
 	"copyright": "All rights reserved."

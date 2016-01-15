@@ -6,12 +6,6 @@ html, body {
 	font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
-.blurred {
-	transition: 5s all;
-	filter: blur(5px) grayscale(0.5);
-	-webkit-filter: blur(5px) grayscale(0.5);
-}
-
 #loading {
 	position: fixed;
 	width: 45px;
@@ -103,4 +97,35 @@ html, body {
 
 .mdl-mini-footer {
 	padding: 20px 0 20px 20px !important;
+}
+
+#error-cross {
+	margin: auto;
+	display: table;
+	color: red;
+	border: 15px solid red;
+	border-radius: 120px;
+	font-size: 120px;
+}
+
+.slogan {
+	color: red;
+	margin-top: 50px;
+	text-align: center;
+	font-size: 60px;
+}
+
+.sub-slogan {
+  font-size: 21px;
+  padding-top: 75px;
+}
+
+#login {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+
+#loginbuttons {
+	text-align: right;
 }

@@ -1,0 +1,31 @@
+<div data-ng-if="logged" class="filemanager">
+	<div class="search">
+		<input type="search" placeholder="Trova un file.." />
+	</div>
+	<div class="breadcrumbs"></div>
+	<ul class="data">
+		<li class="folders" data-ng-for="folder in currentFolder.folders">
+			<a data-ng-click="changeDir(folder.path)" class="folders" data-ng-switch="folder.items.length">
+				<span data-ng-class="'icon folder' + (folder.items.length ? ' full' : '')"></span>
+				<span class="name" data-ng-bind="escapeHTML(folder.name)">Nome</span>
+				<span class="details" data-ng-switch-when="0">Vuota</span>
+				<span class="details" data-ng-switch-when="1">1 elemento</span>
+				<span class="details" data-ng-switch-default data-ng-bind="folder.items.length + ' elementi'"></span>
+			</a>
+		</li>
+		<li class="files" data-ng-for="file in currentFolder.files">
+			<a data-ng-click="" class="files">
+				<span data-ng-class="'icon file f-' + file.ext" data-ng-bind="'.' + file.ext"></span>
+				<span class="name" data-ng-bind="escapeHTML(file.name)">Nome</span>
+				<span class="details" data-ng-bind="bytesToSize(file.size)">Dimensione</span>
+			</a>
+		</li>
+	</ul>
+	<div class="nothingfound" data-ng-if="">
+		<div class="nofiles"></div>
+		<span>Nessun file.</span>
+	</div>
+</div>
+
+<!-- If user is not logged show an error-->
+<div data-ng-if="!logged" data-ng-include="'html/notlogged.html'"></div>

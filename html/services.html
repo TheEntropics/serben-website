@@ -1,0 +1,14 @@
+<div data-ng-for="game in games" class="col-md-6">
+	<a data-ng-href="game.url" class="list-group-item">
+		<img src="game.icon.url" class="pull-left game-icon">
+		<div class="list-group-item-heading">
+			<h3 data-ng-bind="game.name"></h3>
+		</div>
+		<div class="list-group-item-body async-status" data-short-name="game.short_name">
+			<div class="game-status">
+				<div data-ng-switch=""></div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</a>
+</div>
