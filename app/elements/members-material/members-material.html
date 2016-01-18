@@ -1,0 +1,174 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+
+<script src="../../bower_components/masonry/dist/masonry.pkgd.min.js" type="text/javascript"></script>
+
+<dom-module id="members-material">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      span {
+        @apply(--paper-font-body1);
+      }
+    </style>
+  <style is="custom-style">
+    #cards {
+    }
+    paper-card {
+      width: 300px;
+      margin-bottom: 16px;
+      min-height: 350px;
+    }
+    .avatar {
+      display: inline-block;
+      height: 64px;
+      width: 64px;
+      border-radius: 50%;
+      color: white;
+      line-height: 64px;
+      font-size: 30px;
+      text-align: center;
+    }
+    .fancy .title {
+      position: absolute;
+      top: 30px;
+      left: 100px;
+      color: var(--paper-indigo-500);
+    }
+    .fancy img {
+      width: 100%;
+    }
+    .fancy .big {
+      font-size: 22px;
+      padding: 8px 0 16px;
+      color: var(--google-grey-500);
+    }
+    .fancy .medium {
+      font-size: 20px;
+      padding-bottom: 8px;
+    }
+    .fancy .small {
+      font-size: 12px;
+      padding-bottom: 5px;
+    }
+    .gray {
+      --paper-card-header-color: var(--paper-grey-200);
+    }
+    .grid {
+      margin: 0 auto;
+    }
+    href {
+      display: none;
+    }
+  </style>
+
+    <iron-ajax auto url="getUsersInfo.php" handle-as="json" last-response="{{steamData}}"></iron-ajax>
+    <div id="cards" class="grid">
+    <template id="cardstemplate" is="dom-repeat" items="{{steamData.response.players}}">
+      <paper-card heading="{{item.personaname}}" class="gray" image="{{item.avatarfull}}">
+        <div class="card-actions">
+          <paper-button on-tap="goLink">
+            <href>{{item.profileurl}}</href>
+            Vai al profilo Steam
+          </paper-button>
+        </div>
+      </paper-card>
+<!--      <paper-card class="fancy">
+        <div class="card-content">
+          <div class="avatar" data-name="{{item.name}}">
+            <template is="dom-if" if="{{existsLogo(item.link)}}">
+              <img src="logos/{{item.link}}.png" />
+            </template>
+            <template is="dom-if" if="{{!existsLogo(item.link)}}">
+              {{getInitials(item.name)}}
+            </template>
+          </div>
+          <div class="title">
+            <div class="medium">{{item.nick}}</div>
+            <div class="small">{{item.name}}</div>
+          </div>
+        </div>
+        <div class="card-actions">
+          <paper-button on-tap="goLink">
+            <href>{{item.link}}</href>
+            Vai al sito
+          </paper-button>
+        </div>
+      </paper-card>-->
+    </template>
+    </div>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'members-material',
+
+        goLink: function(e) {
+          window.location.href = 'http://' +
+                                  e.target.getElementsByTagName('href')[0].innerHTML +
+                                  '.serben.tk';
+        },
+
+        existsLogo: function(link) {
+          var http = new XMLHttpRequest();
+          http.onreadystatechange = function() {
+            if(http.readyState == 4)
+              return (http.status == 200) || (window.location.href.indefOf('http') == -1);
+          }
+          http.open('HEAD', 'logos/' + link + '.png', true);
+        },
+
+        getInitials: function(name) {
+          var arr = name.split(' ');
+          return arr[0][0] + arr[arr.length - 1][0];
+        },
+
+        getColorFromName: function(name) {
+          var initials = this.getInitials(name);
+          var first = initials[0].charCodeAt(0), second = initials[1].charCodeAt(0);
+          var col1 = first.toString(), col2 = second.toString(),
+              bg1 = 999 - first.toString(), bg2 = 999 - second.toString();
+          var pad = '000';
+          return {
+            'color': '#' + pad.substring(col1.length) + col1 + pad.substring(col2.length) + col2,
+            'background': '#' + pad.substring(bg1.length) + bg1 + pad.substring(bg2.length) + bg2
+          };
+        },
+
+        ready: function() {
+          this.$.cardstemplate.addEventListener("dom-change", function(event){
+            var msnry = new Masonry('.grid', {
+              itemSelector: 'paper-card',
+              columnWidth: 300,
+              gutter: 30,
+              isAnimated: true,
+              fitWidth: true
+            });
+            var avatars = document.getElementsByClassName('avatar');
+            for(var i = 0; i < avatars.length; i++) {
+              var colors = this.getColorFromName(avatars[i].dataset.name);
+              avatars[i].style.color = colors.color;
+              avatars[i].style.background = colors.background;
+            }
+            var cards = document.getElementsByTagName('paper-card');
+            for(var i = 0; i < cards.length; i++) { console.log(cards[i].getAttribute('aria-label')); }
+          });
+        }
+      });
+    })();
+  </script>
+</dom-module>

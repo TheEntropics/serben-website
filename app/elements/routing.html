@@ -39,28 +39,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     page('/', function() {
       app.route = 'home';
+      app.title = 'Home';
+      app.subtitle = 'Benvenuto sul nostro sito';
+      theme.themeColor = '#2E3AA1';
     });
 
     page(app.baseUrl, function() {
       app.route = 'home';
+      app.title = 'Home';
+      app.subtitle = 'Benvenuto sul nostro sito';
+      theme.themeColor = '#2E3AA1';
     });
 
-    page('/users', function() {
-      app.route = 'users';
+    page('/home', function() {
+      app.route = 'home';
+      app.title = 'Home';
+      app.subtitle = 'Benvenuto sul nostro sito';
+      theme.themeColor = '#2E3AA1';
     });
 
-    page('/users/:name', function(data) {
-      app.route = 'user-info';
-      app.params = data.params;
+    page('/services', function() {
+      app.route = 'services';
+      app.title = 'Servizi';
+      app.subtitle = 'Esplora l\'elenco dei nostri servizi';
+      theme.themeColor = '#455A64';
     });
 
-    page('/contact', function() {
-      app.route = 'contact';
+    page('/films', function() {
+      app.route = 'films';
+      app.title = 'Film';
+      app.subtitle = 'Divertiti guardando i film disponibili';
+      theme.themeColor = '#ED3B3B';
+    });
+
+    page('/music', function() {
+      app.route = 'music';
+      app.title = 'Musica';
+      app.subtitle = 'Rilassati ascoltando la musica disponibile';
+      theme.themeColor = '#EF6C00';
+    });
+
+    page('/downloads', function() {
+      app.route = 'downloads';
+      app.title = 'Download';
+      app.subtitle = 'Esplora i download';
+      theme.themeColor = '#FFBB00';
+    });
+
+    page('/members', function() {
+      app.route = 'members';
+      app.title = 'Membri';
+      app.subtitle = 'Visualizza i membri del nostro gruppo';
+      theme.themeColor = '#689F38';
+    });
+
+    page('/info', function() {
+      app.route = 'info';
+      app.title = 'Informazioni';
+      app.subtitle = 'Scopri chi siamo';
+      theme.themeColor = '#039BE5';
     });
 
     // 404
     page('*', function() {
-      app.$.toast.text = 'Can\'t find: ' + window.location.href  + '. Redirected you to Home Page';
+//      app.$.toast.text = 'Can\'t find: ' + window.location.href  + '. Redirected you to Home Page';
+      app.$.toast.text = 'Impossibile trovare: ' + window.location.href  + '. Ti abbiamo riportato alla Home';
       app.$.toast.show();
       page.redirect(app.baseUrl);
     });

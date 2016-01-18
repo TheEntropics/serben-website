@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="info-material">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      span {
+        @apply(--paper-font-body1);
+      }
+    </style>
+
+    <h2>Chi siamo</h2>
+    <p>Siamo un gruppo di studenti della classe 5CIA dell'ITIS J.F. Kennedy a Pordenone che hanno deciso di noleggiare un server.<br />
+    Abbiamo preso questa decisione principalmente per avere un server privato per i nostri videogiochi preferiti, ma poi abbiamo implementato una serie di servizi incredibili (come il forum, il server mail, ecc...).</p>
+    <h2>Come unirsi a noi</h2>
+    <p>Non devi fare niente di particolarmente complicato per unirti a noi, devi semplicemente:</p>
+    <ul>
+      <template is="dom-repeat" items="{{points}}">
+        <li><span>{{item}}</span></li>
+      </template>
+    </ul>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'info-material',
+
+        properties: {
+          points: {
+            type: Array,
+            notify: true,
+          }
+        },
+
+        ready: function() {
+          this.points = [
+            'Accettare il regolamento ufficiale dei The Entropics',
+            'Essere accettato dagli altri membri',
+            'Pagare una tassa mensile calcolata in base al numero di membri corrente'
+          ];
+        }
+      });
+    })();
+  </script>
+</dom-module>

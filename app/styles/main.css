@@ -12,3 +12,16 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
 }
+
+.te-logo {
+	width: 40px;
+	height: 40px;
+	margin: 10px 22.5px 10px -10px;
+	border-radius: 40px;
+	border: 2px solid #2C3E50;
+	transition: .4s all;
+}
+
+.te-logo:hover, .te-logo:focus {
+	transform: scale(1.05) rotateZ(360deg);
+}

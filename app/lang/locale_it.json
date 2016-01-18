@@ -1,0 +1,86 @@
+{
+	"home": {
+		"title": "Home",
+		"content": {}
+	},
+
+	"services": {
+		"title": "Servizi",
+		"games": "Giochi",
+		"other": "Altri servizi",
+		"content": {
+			"name": "Nome",
+			"status": {
+				"title": "Stato",
+				"online": "Online",
+				"offline": "Offline",
+				"gamenotfound": "Gioco non trovato"
+			}
+		}
+	},
+
+	"films": {
+		"title": "Film",
+		"content": {
+			"title": "Titolo",
+			"producer": "Regista",
+			"duration": "Durata",
+			"year": "Anno"
+		}
+	},
+
+	"music": {
+		"title": "Musica",
+		"content": {}
+	},
+
+	"downloads": {
+		"title": "Download",
+		"content": {}
+	},
+
+	"members": {
+		"title": "Members",
+		"content": {}
+	},
+
+	"info": {
+		"title": "Informazioni",
+		"content": {
+			"whoweare": {
+				"title": "Chi siamo",
+				"description": [
+					"Siamo un gruppo di studenti della classe 5CIA dell'ITIS J.F. Kennedy a Pordenone che hanno deciso di noleggiare un server.",
+					"Abbiamo preso questa decisione principalmente per avere un server privato per i nostri videogiochi preferiti,",
+					"ma poi abbiamo implementato una serie di servizi incredibili (come il forum, il server mail, ecc...)."
+				]
+			},
+			"howtojoin": {
+				"title": "Come unirsi a noi",
+				"description": {
+					"header": "Non devi fare niente di particolarmente complicato per unirti a noi, devi semplicemente:",
+					"points": [
+						"Accettare il regolamento ufficiale dei The Entropics",
+						"Essere accettato dagli altri membri",
+						"Pagare una tassa mensile calcolata in base al numero di membri corrente"
+					]
+				}
+			}
+		}
+	},
+
+	"error": {
+		"title": "Errore",
+		"description": "Non puoi accedere a questa sezione del sito."
+	},
+
+	"login": {
+		"title": "Effettua il login",
+		"username": "Nome utente",
+		"password": "Password",
+		"cancel": "Annulla",
+		"login": "Entra"
+	},
+
+	"copyright": "Tutti i diritti riservati."
+}
