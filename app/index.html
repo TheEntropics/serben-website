@@ -9,40 +9,53 @@
 	subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<html lang="en">
+<html>
 	<head>
+		<!-- Website charset -->
 		<meta charset="utf-8">
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Ensures Internet Explorer uses the latest engine -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!-- Website description -->
+		<meta name="description" content="The Entropics' official website. Increase the entropy.">
+		<!-- Disables zooming on mobile phones to make the website responsive -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="generator" content="Polymer Starter Kit">
 		<title>The Entropics</title>
 
-		<!-- Place favicon.ico in the `app/` directory -->
-
-		<!-- Chrome for Android theme color -->
-		<template is="dom-bind" id="theme">
-			<meta name="theme-color" content="{{themeColor}}">
-		</template>
-
-		<!-- Web Application Manifest -->
-		<link rel="manifest" href="manifest.json">
-
-		<!-- Tile color for Win8 -->
-		<meta name="msapplication-TileColor" content="#3372DF">
-
-		<!-- Add to homescreen for Chrome on Android -->
-		<meta name="mobile-web-app-capable" content="yes">
-		<meta name="application-name" content="PSK">
-		<link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
-
-		<!-- Add to homescreen for Safari on iOS -->
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="apple-mobile-web-app-title" content="Polymer Starter Kit">
-		<link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
-
-		<!-- Tile icon for Win8 (144x144) -->
-		<meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+		
+		<!-- Favicon -->
+			<!-- Allows the website to be pinned as a mobile web app -->
+			<meta name="mobile-web-app-capable" content="yes">
+			<!-- For iOS - Web Clip -->
+			<meta name="apple-mobile-web-app-title" content="The Entropics">
+			<link rel="apple-touch-icon" sizes="57x57" href="images/icons/apple-touch-icon-57x57.png">
+			<link rel="apple-touch-icon" sizes="60x60" href="images/icons/apple-touch-icon-60x60.png">
+			<link rel="apple-touch-icon" sizes="72x72" href="images/icons/apple-touch-icon-72x72.png">
+			<link rel="apple-touch-icon" sizes="76x76" href="images/icons/apple-touch-icon-76x76.png">
+			<link rel="apple-touch-icon" sizes="114x114" href="images/icons/apple-touch-icon-114x114.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="images/icons/apple-touch-icon-120x120.png">
+			<link rel="apple-touch-icon" sizes="144x144" href="images/icons/apple-touch-icon-144x144.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="images/icons/apple-touch-icon-152x152.png">
+			<link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon-180x180.png">
+			<!-- For Android Chrome -->
+			<template is="dom-bind" id="theme">
+				<meta name="theme-color" content="{{themeColor}}">
+			</template>
+			<link rel="icon" type="image/png" href="images/icons/android-chrome-192x192.png" sizes="192x192">
+			<link rel="manifest" href="images/icons/manifest.json">
+			<!-- For Safari Pinned Tab -->
+			<link rel="mask-icon" href="images/icons/safari-pinned-tab.svg" color="#36459A">
+			<!-- For Windows 8 and 10 -->
+			<meta name="application-name" content="The Entropics">
+			<meta name="msapplication-TileColor" content="#ffffff">
+			<meta name="msapplication-TileImage" content="images/icons/mstile-144x144.png">
+			<meta name="msapplication-config" content="images/icons/browserconfig.xml">
+			<!-- For Desktop browsers -->
+			<link rel="icon" type="image/png" href="images/icons/favicon-16x16.png" sizes="16x16">
+			<link rel="icon" type="image/png" href="images/icons/favicon-32x32.png" sizes="32x32">
+			<link rel="icon" type="image/png" href="images/icons/favicon-96x96.png" sizes="96x96">
+			<link rel="shortcut icon" href="images/icons/favicon.ico">
+		<!-- /Favicon -->
 
 		<!-- build:css styles/main.css -->
 		<link rel="stylesheet" href="styles/main.css">
