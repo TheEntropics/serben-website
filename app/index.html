@@ -37,10 +37,11 @@
 			<link rel="apple-touch-icon" sizes="144x144" href="images/icons/apple-touch-icon-144x144.png">
 			<link rel="apple-touch-icon" sizes="152x152" href="images/icons/apple-touch-icon-152x152.png">
 			<link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon-180x180.png">
-			<!-- For Android Chrome -->
+			<!-- For Android Chrome 
 			<template is="dom-bind" id="theme">
 				<meta name="theme-color" content="{{themeColor}}">
-			</template>
+			</template>-->
+			<meta name="theme-color" content="#2E3AA1">
 			<link rel="icon" type="image/png" href="images/icons/android-chrome-192x192.png" sizes="192x192">
 			<link rel="manifest" href="images/icons/manifest.json">
 			<!-- For Safari Pinned Tab -->
@@ -73,170 +74,175 @@
 		<style is="custom-style" include="shared-styles"></style>
 	</head>
 
-	<body unresolved>
-		<span id="browser-sync-binding"></span>
-		<template is="dom-bind" id="app">
+	<body>
+		<div id="loading">
+			<paper-spinner id="spinner" alt="Caricamento..." active></paper-spinner>
+		</div>
+		<div unresolved>
+			<span id="browser-sync-binding"></span>
+			<template is="dom-bind" id="app">
 
-			<paper-drawer-panel id="paperDrawerPanel">
-				<!-- Drawer Scroll Header Panel -->
-				<paper-scroll-header-panel drawer fixed>
+				<paper-drawer-panel id="paperDrawerPanel">
+					<!-- Drawer Scroll Header Panel -->
+					<paper-scroll-header-panel drawer fixed>
 
-					<!-- Drawer Toolbar -->
-					<paper-toolbar id="drawerToolbar">
-						<img class="te-logo" src="images/icons/android-chrome-192x192.png" alt="The Entropics" />
-						<span class="menu-name">The Entropics</span>
-					</paper-toolbar>
+						<!-- Drawer Toolbar -->
+						<paper-toolbar id="drawerToolbar">
+							<img class="te-logo" src="images/icons/android-chrome-192x192.png" alt="The Entropics" />
+							<span class="menu-name">The Entropics</span>
+						</paper-toolbar>
 
-					<!-- Drawer Content -->
-					<paper-menu attr-for-selected="data-route" selected="[[route]]">
-						<!-- Home -->
-						<a data-route="home" href="{{baseUrl}}">
-							<iron-icon icon="icons:home"></iron-icon>
-							<span>Home</span>
-						</a>
-						<!-- Services -->
-						<a data-route="services" href="{{baseUrl}}services">
-							<iron-icon icon="hardware:developer-board"></iron-icon>
-							<span>Servizi</span>
-						</a>
-						<!-- Films -->
-						<a data-route="films" href="{{baseUrl}}films">
-							<iron-icon icon="icons:theaters"></iron-icon>
-							<span>Film</span>
-						</a>
-						<!-- Music -->
-						<a data-route="music" href="{{baseUrl}}music">
-							<iron-icon icon="hardware:headset"></iron-icon>
-							<span>Musica</span>
-						</a>
-						<!-- Downloads -->
-						<a data-route="downloads" href="{{baseUrl}}downloads">
-							<iron-icon icon="icons:file-download"></iron-icon>
-							<span>Download</span>
-						</a>
-						<!-- Members -->
-						<a data-route="members" href="{{baseUrl}}members">
-							<iron-icon icon="icons:face"></iron-icon>
-							<span>Membri</span>
-						</a>
-						<!-- Informations -->
-						<a data-route="info" href="{{baseUrl}}info">
-							<iron-icon icon="icons:info"></iron-icon>
-							<span>Informazioni</span>
-						</a>
+						<!-- Drawer Content -->
+						<paper-menu attr-for-selected="data-route" selected="[[route]]">
+							<!-- Home -->
+							<a data-route="home" href="{{baseUrl}}">
+								<iron-icon icon="icons:home"></iron-icon>
+								<span>Home</span>
+							</a>
+							<!-- Services -->
+							<a data-route="services" href="{{baseUrl}}services">
+								<iron-icon icon="hardware:developer-board"></iron-icon>
+								<span>Servizi</span>
+							</a>
+							<!-- Films -->
+							<a data-route="films" href="{{baseUrl}}films">
+								<iron-icon icon="icons:theaters"></iron-icon>
+								<span>Film</span>
+							</a>
+							<!-- Music -->
+							<a data-route="music" href="{{baseUrl}}music">
+								<iron-icon icon="hardware:headset"></iron-icon>
+								<span>Musica</span>
+							</a>
+							<!-- Gallery -->
+							<a data-route="gallery" href="{{baseUrl}}gallery">
+								<iron-icon icon="image:photo"></iron-icon>
+								<span>Galleria</span>
+							</a>
+							<!-- Downloads -->
+							<a data-route="downloads" href="{{baseUrl}}downloads">
+								<iron-icon icon="icons:file-download"></iron-icon>
+								<span>Download</span>
+							</a>
+							<!-- Members -->
+							<a data-route="members" href="{{baseUrl}}members">
+								<iron-icon icon="icons:face"></iron-icon>
+								<span>Membri</span>
+							</a>
+							<!-- Informations -->
+							<a data-route="info" href="{{baseUrl}}info">
+								<iron-icon icon="icons:info"></iron-icon>
+								<span>Informazioni</span>
+							</a>
+							<!-- Login -->
+							<a style="position: absolute; bottom: 0; width: 100%;" href="">
+								<iron-icon icon="communication:contacts"></iron-icon>
+								<span>Login</span>
+								<paper-ripple />
+							</a>
+						</paper-menu>
+					</paper-scroll-header-panel>
 
-					</paper-menu>
-				</paper-scroll-header-panel>
+					<!-- Main Area -->
+					<paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
+						<!-- Main Toolbar -->
+						<paper-toolbar id="mainToolbar" class="tall">
+							<paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
 
-				<!-- Main Area -->
-				<paper-scroll-header-panel main id="headerPanelMain" condenses keep-condensed-header>
-					<!-- Main Toolbar -->
-					<paper-toolbar id="mainToolbar" class="tall">
-						<paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+							<span class="space"></span>
 
-						<span class="space"></span>
+							<!-- Toolbar icons -->
+							<paper-icon-button icon="refresh"></paper-icon-button>
+							<paper-icon-button icon="search"></paper-icon-button>
 
-						<!-- Toolbar icons -->
-						<paper-icon-button icon="refresh"></paper-icon-button>
-						<paper-icon-button icon="search"></paper-icon-button>
+							<!-- Application name -->
+							<div class="middle middle-container">
+								<style is="custom-style">
+									.current-page-logo {
+										--iron-icon-width: 40px;
+										--iron-icon-height: 40px;
+										transform: translateY(-3px);
+									}
+								</style>
+								<div class="app-name"><!--<iron-icon icon="icons:home" class="current-page-logo"></iron-icon>&nbsp;&nbsp;-->{{title}}</div>
+							</div>
 
-						<!-- Application name -->
-						<div class="middle middle-container">
-							<style is="custom-style">
-								.current-page-logo {
-									--iron-icon-width: 40px;
-									--iron-icon-height: 40px;
-									transform: translateY(-3px);
-								}
-							</style>
-							<div class="app-name"><!--<iron-icon icon="icons:home" class="current-page-logo"></iron-icon>&nbsp;&nbsp;-->{{title}}</div>
-						</div>
+							<!-- Application sub title -->
+							<div class="bottom bottom-container">
+								<div class="bottom-title">{{subtitle}}</div>
+							</div>
+						</paper-toolbar>
 
-						<!-- Application sub title -->
-						<div class="bottom bottom-container">
-							<div class="bottom-title">{{subtitle}}</div>
-						</div>
-					</paper-toolbar>
+						<!-- Main Content -->
+						<div class="content">
+							<iron-pages attr-for-selected="data-route" selected="{{route}}">
+								<section data-route="home">
+									<paper-material elevation="1">
+										<home-material />
+									</paper-material>
+								</section>
 
-					<!-- Main Content -->
-					<div class="content">
-						<iron-pages attr-for-selected="data-route" selected="{{route}}">
-							<section data-route="home">
-								<paper-material elevation="1">
-									<my-greeting></my-greeting>
+								<section data-route="services">
+									<services-material />
+								</section>
 
-									<p class="subhead">You now have:</p>
-									<my-list></my-list>
+								<section data-route="films">
+									<films-material />
+								</section>
 
-									<p>Looking for more Web App layouts? Check out our <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a> collection. You can also <a href="http://polymerelements.github.io/app-layout-templates/">preview</a> them live.</p>
-								</paper-material>
+								<section data-route="film-info">
+									<films-material />
+								</section>
 
-								<paper-material elevation="1">
-									<p>This is another card.</p>
-								</paper-material>
+								<section data-route="music">
+									<music-material />
+								</section>
 
-								<paper-material elevation="1">
-									<h1 id="license">License</h1>
-									<p>Everything in this repo is BSD style license unless otherwise specified.</p>
-									<p>Copyright (c) 2015 The Polymer Authors. All rights reserved.</p>
-									<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
-									<ul>
-									<li>Redistributions of source code must retain the above copyright
-									notice, this list of conditions and the following disclaimer.</li>
-									<li>Redistributions in binary form must reproduce the above
-									copyright notice, this list of conditions and the following disclaimer
-									in the documentation and/or other materials provided with the
-									distribution.</li>
-									<li>Neither the name of Google Inc. nor the names of its
-									contributors may be used to endorse or promote products derived from
-									this software without specific prior written permission.</li>
-									</ul>
-									<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-								</paper-material>
-							</section>
+								<section data-route="downloads">
+									<downloads-material />
+								</section>
 
-							<section data-route="members">
-								<paper-material elevation="1">
+								<section data-route="members">
 									<members-material />
-								</paper-material>
-							</section>
+								</section>
 
-							<section data-route="info">
-								<paper-material elevation="1">
-									<info-material />
-								</paper-material>
-							</section>
-						</iron-pages>
-					</div>
-				</paper-scroll-header-panel>
-			</paper-drawer-panel>
+								<section data-route="info">
+									<paper-material elevation="1">
+										<info-material />
+									</paper-material>
+								</section>
+							</iron-pages>
+						</div>
+					</paper-scroll-header-panel>
+				</paper-drawer-panel>
 
-			<paper-toast id="toast">
-				<span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
-			</paper-toast>
+				<paper-toast id="toast">
+					<span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>
+				</paper-toast>
 
-			<!-- Uncomment next block to enable Service Worker support (1/2) -->
-			<!--
-			<paper-toast id="caching-complete"
-				duration="6000"
-				text="Caching complete! This app will work offline.">
-			</paper-toast>
+				<!-- Uncomment next block to enable Service Worker support (1/2) -->
+				<!--
+				<paper-toast id="caching-complete"
+					duration="6000"
+					text="Caching complete! This app will work offline.">
+				</paper-toast>
 
-			<platinum-sw-register auto-register
-				clients-claim
-				skip-waiting
-				base-uri="bower_components/platinum-sw/bootstrap"
-				on-service-worker-installed="displayInstalledToast">
-				<platinum-sw-cache default-cache-strategy="fastest"
-					cache-config-file="cache-config.json">
-				</platinum-sw-cache>
-			</platinum-sw-register>
-			-->
+				<platinum-sw-register auto-register
+					clients-claim
+					skip-waiting
+					base-uri="bower_components/platinum-sw/bootstrap"
+					on-service-worker-installed="displayInstalledToast">
+					<platinum-sw-cache default-cache-strategy="fastest"
+						cache-config-file="cache-config.json">
+					</platinum-sw-cache>
+				</platinum-sw-register>
+				-->
 
-		</template>
+			</template>
 
-		<!-- build:js scripts/app.js -->
-		<script src="scripts/app.js"></script>
-		<!-- endbuild-->
+			<!-- build:js scripts/app.js -->
+			<script src="scripts/app.js"></script>
+			<!-- endbuild-->
+		</div>
 	</body>
 </html>

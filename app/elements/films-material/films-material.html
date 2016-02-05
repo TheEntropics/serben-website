@@ -9,17 +9,25 @@
 <link rel="import" href="../../bower_components/iron-icons/hardware-icons.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
 
-<dom-module id="members-material">
+
+<dom-module id="films-material">
   <template>
     <style is="custom-style">
       #cards {
         text-align: center;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: default;
       }
       paper-card {
-        width: 250px;
+        width: 200px;
         margin: 16px;
-        min-height: 300px;
       }
       .inherit {
         color: inherit;
@@ -30,68 +38,34 @@
           margin: 16px 0;
         }
       }
-      paper-card
-      .avatar {
-        display: inline-block;
-        height: 64px;
-        width: 64px;
-        border-radius: 50%;
-        color: white;
-        line-height: 64px;
-        font-size: 30px;
-        text-align: center;
-      }
-	  paper-button.link {
-	    color: var(--paper-gray-800);
-	  }
-	  paper-button.link:hover {
-	    background-color: var(--paper-indigo-100);
-	  }
 	  .title-text {
 	  	background-color: rgba(200, 200, 200, 0.3) !important;
 	  	color: var(--paper-pink-400) !important;
 	  	border-radius: 0 20px 0 0 !important;
 	  }
-	  iron-image {
-		width: 100%;
+	  .card-content {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	  }
+	  iron-image {
+	  	width: 100%;
+	  }
+      a:link, a:visited {
+        text-decoration: none;
+        cursor: pointer;
+      }
     </style>
 
-    <iron-ajax auto url="getUsersInfo.php" handle-as="json" last-response="{{data}}"></iron-ajax>
+    <iron-ajax auto url="getFilms.php" handle-as="json" last-response="{{data}}"></iron-ajax>
     <div id="cards">
     <template id="cardstemplate" is="dom-repeat" items="{{data}}">
-      <paper-card heading="{{item.nick}}" style$="--paper-card-header-color: {{item.col}}" image="{{item.img}}">
-        <div class="card-actions">
-          <a href="http://{{item.name}}.serben.tk" target="{{item.name}}" class="inherit">
-            <paper-button class="link">Vai al sito</paper-button>
-          </a>
-          <a href="{{item.link}}" target="{{item.nick}}" class="inherit">
-            <paper-button class="link">Vai al profilo Steam</paper-button>
-          </a>
-        </div>
-      </paper-card>
-<!--      <paper-card class="fancy">
-        <div class="card-content">
-          <div class="avatar" data-name="{{item.name}}">
-            <template is="dom-if" if="{{existsLogo(item.link)}}">
-              <img src="logos/{{item.link}}.png" />
-            </template>
-            <template is="dom-if" if="{{!existsLogo(item.link)}}">
-              {{getInitials(item.name)}}
-            </template>
-          </div>
-          <div class="title">
-            <div class="medium">{{item.nick}}</div>
-            <div class="small">{{item.name}}</div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <paper-button on-tap="goLink">
-            <href>{{item.link}}</href>
-            Vai al sito
-          </paper-button>
-        </div>
-      </paper-card>-->
+        <a href="{{item.path}}" class="inherit">
+          <paper-card class="film" image="{{getImage(item.image)}}"> <!--" === '' ? 'no_poster.jpg' : item.image}}">-->
+            <div class="card-content inherit">{{getTitle(item.title, item.filename)}}</div> <!-- === '' ? item.filename : item.title}}</div>-->
+            <paper-ripple></paper-ripple>
+          </paper-card>
+        </a>
     </template>
     </div>
   </template>
@@ -100,7 +74,15 @@
       'use strict';
 
       Polymer({
-        is: 'members-material',
+        is: 'films-material',
+
+		getImage: function(img) {
+			return (img === '') ? 'no_poster.jpg' : img;
+		},
+
+		getTitle: function(title, filename) {
+			return (title === '') ? filename : title;
+		},
 
         existsLogo: function(link) {
           var http = new XMLHttpRequest();

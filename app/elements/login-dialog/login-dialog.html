@@ -1,0 +1,43 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<dom-module id="login-dialog">
+  <template>
+  	<style is="custom-style">
+  		paper-dialog {
+  			min-width: 400px;
+  		}
+  		#login-btn {
+  			background-color: var(--paper-indigo-500);
+  			color: white;
+  		}
+  	</style>
+    <paper-dialog entry-animation="scale-up-animation" exit-animation="scale-down-animation" opened with-backdrop>
+    	<h2>Effettua il login</h2>
+		<form is="iron-form" id="formPost" method="post" action="/">
+			<paper-input name="user" id="user" label="Nome utente" required char-counter minlength="3" maxlength="40" auto-validate pattern="^[A-Za-z0-9\._\$@=\(\)\[\]]+$"></paper-input>
+			<paper-input name="pass" id="pass" label="Password" type="password" required auto-validate></paper-input>
+			<div class="buttons">
+				<paper-button raised id="login-btn" on-tap="submitHandler">Invia</paper-button>
+			</div>
+		</form>
+    </paper-dialog>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'login-dialog',
+
+        submitHandler: function() {
+          document.getElementById('formPost').submit();
+        }
+      });
+    })();
+  </script>
+</dom-module>

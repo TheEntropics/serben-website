@@ -1,28 +1,42 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 
 <dom-module id="info-material">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-
-      span {
-        @apply(--paper-font-body1);
-      }
+    <style is="custom-style">
+    	paper-icon-button {
+    		width: 25px;
+    		height: 25px;
+    		transform: translateY(-3px) scale(1.5);
+    		color: black;
+    	}
+    	paper-icon-button:hover, paper-icon-button:focus {
+    		color: darkblue;
+    	}
+    	paper-dialog {
+    		width: 70vw;
+    		height: 90vh;
+    	}
+    	embed {
+    		width: 100%;
+    		height: 100%;
+    	}
     </style>
-
     <h2>Chi siamo</h2>
     <p>Siamo un gruppo di studenti della classe 5CIA dell'ITIS J.F. Kennedy a Pordenone che hanno deciso di noleggiare un server.<br />
     Abbiamo preso questa decisione principalmente per avere un server privato per i nostri videogiochi preferiti, ma poi abbiamo implementato una serie di servizi incredibili (come il forum, il server mail, ecc...).</p>
     <h2>Come unirsi a noi</h2>
     <p>Non devi fare niente di particolarmente complicato per unirti a noi, devi semplicemente:</p>
     <ul>
-      <template is="dom-repeat" items="{{points}}">
-        <li><span>{{item}}</span></li>
-      </template>
+      <li>Accettare il regolamento ufficiale dei The Entropics <paper-icon-button icon="icons:launch" on-tap="openRules"></paper-icon-button></li>
+      <li>Essere accettato dagli altri membri</li>
+      <li>Pagare una tassa mensile calcolata in base al numero di membri corrente</li>
     </ul>
+    <paper-dialog id="rulesDialog" entry-animation="scale-up-animation" exit-animation="scale-down-animation" with-backdrop>
+		<embed src="http://rules.serben.tk" type="application/pdf"></embed>
+    </paper-dialog>
   </template>
 
   <script>
@@ -32,19 +46,8 @@
       Polymer({
         is: 'info-material',
 
-        properties: {
-          points: {
-            type: Array,
-            notify: true,
-          }
-        },
-
-        ready: function() {
-          this.points = [
-            'Accettare il regolamento ufficiale dei The Entropics',
-            'Essere accettato dagli altri membri',
-            'Pagare una tassa mensile calcolata in base al numero di membri corrente'
-          ];
+        openRules: function() {
+          document.getElementById('rulesDialog').open();
         }
       });
     })();
