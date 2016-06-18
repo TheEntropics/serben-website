@@ -25,14 +25,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   app.isLoggedIn = function() {
-    var xhttp;
-    if (window.XMLHttpRequest)
+/*    var xhttp;
+    if (window.XMLHttpRequest) {
       xhttp = new XMLHttpRequest();
-    else
-      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } else {
+      xhttp = new ActiveXObject('Microsoft.XMLHTTP');
+    }
     xhttp.open('GET', '../php/islogged.php', false);
     xhttp.send();
-    return xhttp.responseText.logged > 0;
+    return xhttp.responseText.logged > 0;*/
+    return false;
   };
 
   app.displayInstalledToast = function() {
@@ -42,14 +44,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   };
 
-/*  window.addEventListener('WebComponentsReady', function() {
+  /*window.addEventListener('WebComponentsReady', function() {
     document.body.removeChild(document.getElementById('loading'));
   });*/
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
-//    console.log('Our app is ready to rock!');
+    //console.log('Our app is ready to rock!');
   });
 
   // Main area's paper-scroll-header-panel custom condensing transformation of

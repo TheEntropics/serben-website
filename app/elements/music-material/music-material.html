@@ -23,10 +23,10 @@
           var title = song.title ? song.title : song.filename;
           if (song.album)
             title += ' - ' + song.album;
+          if (song.year)
+            title += ' (' + song.year + ')';
           if (song.artist)
             title += ' - ' + song.artist;
-          if (song.year)
-            title += ' - ' + song.year;
           return title;
         },
         test: function(data) {
