@@ -1,5 +1,5 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "serben-website",
   "private": true,
   "dependencies": {
     "iron-elements": "PolymerElements/iron-elements#^1.0.0",
@@ -7,7 +7,13 @@
     "page": "visionmedia/page.js#~1.6.4",
     "paper-elements": "PolymerElements/paper-elements#^1.0.1",
     "platinum-elements": "PolymerElements/platinum-elements#^1.1.0",
-    "polymer": "Polymer/polymer#^1.2.0"
+    "polymer": "Polymer/polymer#^1.2.0",
+    "socket.io-client": "^1.4.6",
+    "socket-io": "^1.0.0",
+    "color-thief": "^2.0.1",
+    "re-captcha": "^1.1.1",
+    "pdf-element": "^1.0.13",
+    "paper-audio-player": "^0.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

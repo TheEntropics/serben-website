@@ -1,8 +1,37 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 
 <dom-module id="services-material">
   <template>
+  	<style is="custom-style">
+  	  .service-header {
+  	    @apply(--paper-font-headline);
+  	  }
+  	  .service-on {
+  	  	color: var(--paper-green-600);
+  	  }
+  	  .service-off {
+  	  	color: var(--paper-red-600);
+  	  }
+  	  .service-error {
+  	  	color: var(--paper-pink-600);
+  	  }
+  	</style>
+    <iron-ajax auto url="status.json" handle-as="json" last-response="services"></iron-ajax>
+    <div id="services">
+      <template is="dom-repeat" items="{{services}}">
+        <paper-card image="{{item.image}}">
+          <div class="card-content">
+          	<div class="service-header">{{item.full_name}}</div>
+          </div>
+          <div class="card-actions">
+          	<b>Status:</b>
+          	<span class$="{{}}">{{item.status.status}}</span>
+          </div>-->
+        </paper-card>
+      </template>
+    </div>
   </template>
 
   <script>

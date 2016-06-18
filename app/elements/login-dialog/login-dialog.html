@@ -1,30 +1,58 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../../bower_components/re-captcha/re-captcha.html">
 
 <dom-module id="login-dialog">
   <template>
-  	<style is="custom-style">
-  		paper-dialog {
-  			min-width: 400px;
-  		}
-  		#login-btn {
-  			background-color: var(--paper-indigo-500);
-  			color: white;
-  		}
-  	</style>
-    <paper-dialog entry-animation="scale-up-animation" exit-animation="scale-down-animation" opened with-backdrop>
-    	<h2>Effettua il login</h2>
-		<form is="iron-form" id="formPost" method="post" action="/">
-			<paper-input name="user" id="user" label="Nome utente" required char-counter minlength="3" maxlength="40" auto-validate pattern="^[A-Za-z0-9\._\$@=\(\)\[\]]+$"></paper-input>
-			<paper-input name="pass" id="pass" label="Password" type="password" required auto-validate></paper-input>
-			<div class="buttons">
-				<paper-button raised id="login-btn" on-tap="submitHandler">Invia</paper-button>
-			</div>
-		</form>
-    </paper-dialog>
+    <style is="custom-style">
+      paper-input {
+        width: 20em;
+      }
+      #btnLogin {
+        background-color: var(--paper-indigo-500);
+        color: white;
+      }
+      #btnLogin[disabled] {
+        background-color: var(--paper-grey-500);
+      }
+      re-captcha {
+        margin: 20px 0;
+      }
+      #error {
+        color: var(--paper-red-600);
+      }
+      #loginToast .toast-hide-button {
+        color: #eeff41;
+        margin: 10px;
+      }
+    </style>
+      <iron-ajax id="loginRequest" url="/php/process_login.php" content-type="application/x-www-form-urlencoded" handle-as="json" method="POST" on-response="checkLoggedId"></iron-ajax>
+      <iron-a11y-keys keys="enter" on-keys-pressed="submitHandler"></iron-a11y-keys>
+      <paper-dialog id="paperLoginDialog" entry-animation="scale-up-animation" exit-animation="scale-down-animation" with-backdrop>
+        <h2>Effettua il login</h2>
+        <paper-dialog-scrollable>
+          <form is="iron-form" id="formPost">
+            <paper-input name="user" id="user" label="Nome utente" required minlength="1" maxlength="40" auto-validate error-message="Il nome utente non può essere vuoto!" value="{{user::input}}"></paper-input>
+            <paper-input name="pass" id="pass" label="Password" type="password" required minlength="1" auto-validate error-message="La password non può essere vuota!" value="{{pass::input}}"></paper-input>
+<!--            <template is="dom-if" if="{{captchaEnabled}}">-->
+              <re-captcha id="captcha" sitekey="6LesRBUTAAAAAHkNgQJb4zwZ3Ov7YeiS_Gj8A3aJ" />
+<!--            </template>-->
+            <p id="error">{{errorText}}</p>
+            <div class="buttons">
+              <paper-button raised id="btnLogin" on-tap="submitHandler" disabled="{{fieldsEmpty}}">Login</paper-button>
+            </div>
+          </form>
+        </paper-dialog-scrollable>
+      </paper-dialog>
+      <paper-toast id="loginToast">
+        Login effettuato con successo!
+        <span class="toast-hide-button" role="button" tabindex="0" onclick="this.$.loginToast.hide()">Ok</span>
+      </paper-toast>
   </template>
 
   <script>
@@ -34,8 +62,71 @@
       Polymer({
         is: 'login-dialog',
 
+        properties: {
+          fieldsEmpty: {
+            type: Boolean,
+            computed: 'checkFields(user, pass)',
+            notify: true
+          },
+/*          attempts: {
+            type: Number,
+            value: 0
+          },
+          captchaEnabled: {
+            type: Boolean,
+            value: false
+          },*/
+          errorText: String
+        },
         submitHandler: function() {
-          document.getElementById('formPost').submit();
+        	var captchaResponse = document.querySelector('re-captcha').getResponse();
+        	if (!captchaResponse)
+            	this.errorText = 'Devi verificare il captcha!';
+/*          if (this.captchaEnabled && (document.querySelector('re-captcha').getResponse() === ''))
+            this.errorText = 'Devi verificare il captcha!';*/
+            if (this.user && this.pass && captchaResponse) {
+//          else if (this.user && this.pass) {
+/*            var captchaParam = '';
+            if (this.captchaEnabled)
+              captchaParam = '&captcha=' + document.querySelector('re-captcha').getResponse();*/
+            this.$.loginRequest.body = 'username=' + this.user + '&password=' + this.pass + '&captcha=' + captchaResponse;//captchaParam;
+            this.$.loginRequest.generateRequest();
+          }
+        },
+        checkLoggedId: function(data) {
+          this.errorText = '';
+          switch(data.detail.response) {
+            case 0:
+              this.$.paperLoginDialog.close();
+              var _this = this;
+              setTimeout(function() { _this.user = _this.pass = ''; }, 1000);
+              this.$.loginToast.show();
+              break;
+            case 1:
+              this.errorText = 'L\'utente non esiste!';
+              break;
+            case 2:
+              this.errorText = 'La password è errata!';
+/*              this.attempts++;
+              if(this.attempts > 3)
+                this.captchaEnabled = true;*/
+              break;
+            case 3:
+              this.errorText = 'Sembra che tu non sia umano.';
+              break;
+            case 4:
+              this.errorText = 'Hai effettuato più di 10 tentativi di login nelle ultime due ore. Riprova più tardi';
+              break;
+            case 5:
+              this.errorText = 'Compila tutti i campi!';
+              break;
+          }
+        },
+        checkFields: function(user, pass) {
+          return user === '' || pass === '';
+        },
+        open: function() {
+          this.$.paperLoginDialog.open();
         }
       });
     })();

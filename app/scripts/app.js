@@ -17,11 +17,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // Sets app default base URL
   app.baseUrl = '/';
+
   if (window.location.port === '') {  // if production
     // Uncomment app.baseURL below and
     // set app.baseURL to '/your-pathname/' if running from folder in production
-    // app.baseUrl = '/polymer-starter-kit/';
+    app.baseUrl = '/';
   }
+
+  app.isLoggedIn = function() {
+    var xhttp;
+    if (window.XMLHttpRequest)
+      xhttp = new XMLHttpRequest();
+    else
+      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    xhttp.open('GET', '../php/islogged.php', false);
+    xhttp.send();
+    return xhttp.responseText.logged > 0;
+  };
 
   app.displayInstalledToast = function() {
     // Check to make sure caching is actually enabled—it won't be in the dev environment.
@@ -30,14 +42,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   };
 
-  window.addEventListener('WebComponentsReady', function(e) {
+/*  window.addEventListener('WebComponentsReady', function() {
     document.body.removeChild(document.getElementById('loading'));
-  });
+  });*/
 
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
-    console.log('Our app is ready to rock!');
+//    console.log('Our app is ready to rock!');
   });
 
   // Main area's paper-scroll-header-panel custom condensing transformation of

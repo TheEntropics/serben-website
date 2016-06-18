@@ -37,12 +37,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       next();
     });
 
-    page('/', function() {
-      app.route = 'home';
-      app.title = 'Home';
-      app.subtitle = 'Benvenuto sul nostro sito';
-    });
-
     page(app.baseUrl, function() {
       app.route = 'home';
       app.title = 'Home';
@@ -50,9 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 
     page('/home', function() {
-      app.route = 'home';
-      app.title = 'Home';
-      app.subtitle = 'Benvenuto sul nostro sito';
+      page.redirect(app.baseUrl);
     });
 
     page('/services', function() {
@@ -67,13 +59,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.subtitle = 'Divertiti guardando i film disponibili';
     });
 
-    page('/films/:film', function(data) {
-      app.route = 'film-info';
-      app.title = 'Film';
-      app.subtitle = 'Divertiti guardando i film disponibili';
-	  app.params = data.params;
-    });
-
     page('/music', function() {
       app.route = 'music';
       app.title = 'Musica';
@@ -86,10 +71,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.subtitle = 'Sfoglia le immagini nei nostri archivi';
     });
 
-    page('/downloads', function() {
+    page('/downloads/:dir*', function(data) {
       app.route = 'downloads';
       app.title = 'Download';
       app.subtitle = 'Esplora i download';
+      app.params = data.params.dir ? data.params.dir : '';
     });
 
     page('/members', function() {
@@ -112,8 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.$.toast.show();
       page.redirect(app.baseUrl);
     });
-    // add #! before urls
-    page();
 
+    page();
   });
 </script>

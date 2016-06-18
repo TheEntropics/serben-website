@@ -15,42 +15,42 @@
 <dom-module id="films-material">
   <template>
     <style is="custom-style">
-      #cards {
-        text-align: center;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: default;
-      }
-      paper-card {
-        width: 200px;
-        margin: 16px;
-      }
-      .inherit {
-        color: inherit;
-        background-color: inherit;
-      }
-      @media screen and (max-width: 729px) {
-        paper-card {
-          margin: 16px 0;
+        #cards {
+          text-align: center;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          cursor: default;
         }
-      }
-	  .title-text {
-	  	background-color: rgba(200, 200, 200, 0.3) !important;
-	  	color: var(--paper-pink-400) !important;
-	  	border-radius: 0 20px 0 0 !important;
-	  }
-	  .card-content {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	  }
-	  iron-image {
-	  	width: 100%;
-	  }
+        paper-card {
+          width: 200px;
+          margin: 16px;
+        }
+        .inherit {
+          color: inherit;
+          background-color: inherit;
+        }
+        @media screen and (max-width: 729px) {
+          paper-card {
+            margin: 16px 0;
+          }
+        }
+  	  .title-text {
+  	  	background-color: rgba(200, 200, 200, 0.3) !important;
+  	  	color: var(--paper-pink-400) !important;
+  	  	border-radius: 0 20px 0 0 !important;
+  	  }
+  	  .card-content {
+  		overflow: hidden;
+  		white-space: nowrap;
+  		text-overflow: ellipsis;
+  	  }
+  	  iron-image {
+  	  	width: 100%;
+  	  }
       a:link, a:visited {
         text-decoration: none;
         cursor: pointer;
@@ -76,41 +76,12 @@
       Polymer({
         is: 'films-material',
 
-		getImage: function(img) {
-			return (img === '') ? 'no_poster.jpg' : img;
-		},
-
-		getTitle: function(title, filename) {
-			return (title === '') ? filename : title;
-		},
-
-        existsLogo: function(link) {
-          var http = new XMLHttpRequest();
-          http.onreadystatechange = function() {
-            if (http.readyState === 4) {
-              return (http.status === 200) || (window.location.href.indefOf('http') === -1);
-            }
-          };
-          http.open('HEAD', 'logos/' + link + '.png', true);
+        getImage: function(img) {
+          return (img === '') ? 'https://downloads.serben.tk/Film/no_poster.jpg' : img;
         },
 
-        getInitials: function(name) {
-          var arr = name.split(' ');
-          return arr[0][0] + arr[arr.length - 1][0];
-        },
-
-        ready: function() {
-          this.$.cardstemplate.addEventListener('dom-change', function() {
-            /*var avatars = document.getElementsByClassName('avatar');
-            for (var i = 0; i < avatars.length; i++) {
-              var colors = this.getColorFromName(avatars[i].dataset.name);
-              avatars[i].style.color = colors.color;
-              avatars[i].style.background = colors.background;
-            }
-            var cards = document.getElementsByTagName('paper-card');
-            for (var i = 0; i < cards.length; i++) { console.log(cards[i].getAttribute('aria-label')); }
-            */
-          });
+        getTitle: function(title, filename) {
+          return (title === '') ? filename : title;
         }
       });
     })();

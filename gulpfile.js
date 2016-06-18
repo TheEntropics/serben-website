@@ -14,16 +14,24 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
+var express = require('express');
+var http = require('http');
 var merge = require('merge-stream');
 var path = require('path');
 var fs = require('fs');
 var glob = require('glob-all');
-var historyApiFallback = require('connect-history-api-fallback');
 var packageJson = require('./package.json');
 var crypto = require('crypto');
 var ensureFiles = require('./tasks/ensure-files.js');
+var io = require('socket.io');
+
+var app = express();
+var server = http.Server(app);
+
+var socket;
+
+var devPort = process.env.PORT || 5000;
+var distPort = process.env.PORT || 80;
 
 // var ghPages = require('gulp-gh-pages');
 
@@ -43,6 +51,44 @@ var DIST = 'dist';
 
 var dist = function(subpath) {
   return !subpath ? DIST : path.join(DIST, subpath);
+};
+
+var onSocketConnection = function(client) {
+  var self = this;
+
+  console.log('User connected: ' + client.id);
+
+  // Send to user the members when requested
+  client.on('members request', function() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "jsons/members.json", false);
+    request.send(null)
+    var ret = [];
+    var result = JSON.parse(request.responseText);
+    io.socket.post(apiurl + result.map(function(v) {
+      return v['steamid'];
+    }).join(';'), function(steamresult) {
+      steamresult.response.players.forEach(function(player, i) {
+        var name;
+        result.forEach(function(value) {
+          if(value.steamid.equals(player.steamid))
+            name = value.name;
+        });
+        var newplayer = {
+          'name': name,
+          'nick': player.personaname,
+          'img': player.avatarfull,
+          'col': '#fff',
+          'link': player.profileurl
+        };
+        ret.push(newplayer);
+      });
+      ret.sort(function(a, b) {
+        return ((a == b) ? 0 : ((a > b) ? 1 : -1 ));
+      });
+      self.emit('members response', ret);
+    });
+  });
 };
 
 var styleTask = function(stylesPath, srcs) {
@@ -124,18 +170,18 @@ gulp.task('lint', ['ensureFiles'], function() {
       'app/elements/**/*.html',
       'gulpfile.js'
     ])
-    .pipe(reload({
+/*    .pipe(reload({
       stream: true,
       once: true
-    }))
+    }))*/
 
   // JSCS has not yet a extract option
   .pipe($.if('*.html', $.htmlExtract({strip: true})))
   .pipe($.jshint())
   .pipe($.jscs())
   .pipe($.jscsStylish.combineWithHintResults())
-  .pipe($.jshint.reporter('jshint-stylish'))
-  .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+  .pipe($.jshint.reporter('jshint-stylish'));
+  //  .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
 // Optimize images
@@ -238,56 +284,34 @@ gulp.task('clean', function() {
 
 // Watch files for changes & reload
 gulp.task('serve', ['lint', 'styles', 'elements'], function() {
-  browserSync({
-    port: 5000,
-    notify: false,
-    logPrefix: 'PSK',
-    snippetOptions: {
-      rule: {
-        match: '<span id="browser-sync-binding"></span>',
-        fn: function(snippet) {
-          return snippet;
-        }
-      }
-    },
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: {
-      baseDir: ['.tmp', 'app'],
-      middleware: [historyApiFallback()]
-    }
-  });
 
-  gulp.watch(['app/**/*.html'], reload);
-  gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
-  gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
-  gulp.watch(['app/{scripts,elements}/**/{*.js,*.html}'], ['lint']);
-  gulp.watch(['app/images/**/*'], reload);
+  app.use('/', express.static(__dirname + '/.tmp'));
+  app.use('/', express.static(__dirname + '/app'));
+
+  server.listen(devPort);
+  
+  socket = io.listen(server);
+  socket.sockets.on('connection', onSocketConnection);
+
+  console.log('Listening on port ' + devPort);
+
+  //  gulp.watch(['app/**/*.html'], reload);
+  //  gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
+  //  gulp.watch(['app/elements/**/*.css'], ['elements', reload]);
+  //  gulp.watch(['app/{scripts,elements}/**/{*.js,*.html}'], ['lint']);
+  //  gulp.watch(['app/images/**/*'], reload);
 });
 
 // Build and serve the output from the dist build
 gulp.task('serve:dist', ['default'], function() {
-  browserSync({
-    port: 5001,
-    notify: false,
-    logPrefix: 'PSK',
-    snippetOptions: {
-      rule: {
-        match: '<span id="browser-sync-binding"></span>',
-        fn: function(snippet) {
-          return snippet;
-        }
-      }
-    },
-    // Run as an https by uncommenting 'https: true'
-    // Note: this uses an unsigned certificate which on first access
-    //       will present a certificate warning in the browser.
-    // https: true,
-    server: dist(),
-    middleware: [historyApiFallback()]
-  });
+  app.use('/', express.static(__dirname + dist()));
+
+  server.listen(distPort);
+
+  socket = io.listen(server);
+  socket.sockets.on('connection', onSocketConnection);
+
+  console.log('Listening on port ' + distPort);
 });
 
 // Build production files, the default task

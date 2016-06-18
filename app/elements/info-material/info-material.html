@@ -19,9 +19,9 @@
     		width: 70vw;
     		height: 90vh;
     	}
-    	embed {
-    		width: 100%;
-    		height: 100%;
+    	iframe {
+    		width: calc(100% - 30px);
+    		height: calc(100% - 30px);
     	}
     </style>
     <h2>Chi siamo</h2>
@@ -35,7 +35,7 @@
       <li>Pagare una tassa mensile calcolata in base al numero di membri corrente</li>
     </ul>
     <paper-dialog id="rulesDialog" entry-animation="scale-up-animation" exit-animation="scale-down-animation" with-backdrop>
-		<embed src="http://rules.serben.tk" type="application/pdf"></embed>
+		  <iframe src="https://rules.serben.tk" frameborder="0"></iframe>
     </paper-dialog>
   </template>
 

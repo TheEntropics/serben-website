@@ -1,18 +1,16 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-audio-player/paper-audio-player.html">
 
 <dom-module id="music-material">
   <template>
-    <h2>Chi siamo</h2>
-    <p>Siamo un gruppo di studenti della classe 5CIA dell'ITIS J.F. Kennedy a Pordenone che hanno deciso di noleggiare un server.<br />
-    Abbiamo preso questa decisione principalmente per avere un server privato per i nostri videogiochi preferiti, ma poi abbiamo implementato una serie di servizi incredibili (come il forum, il server mail, ecc...).</p>
-    <h2>Come unirsi a noi</h2>
-    <p>Non devi fare niente di particolarmente complicato per unirti a noi, devi semplicemente:</p>
-    <ul>
-      <template is="dom-repeat" items="{{points}}">
-        <li><span>{{item}}</span></li>
-      </template>
-    </ul>
+    <style is="custom-style">
+    </style>
+
+    <iron-ajax auto url="getSongs.php" handle-as="json" last-response="{{data}}" on-response="test"></iron-ajax>
+    <template is="dom-repeat" items="{{data}}">
+      <paper-audio-player src="{{item.link}}" title="{{getTitle(item)}}" color="#3f51b5" />
+    </template>
   </template>
 
   <script>
@@ -21,20 +19,18 @@
 
       Polymer({
         is: 'music-material',
-
-        properties: {
-          points: {
-            type: Array,
-            notify: true,
-          }
+        getTitle: function(song) {
+          var title = song.title ? song.title : song.filename;
+          if (song.album)
+            title += ' - ' + song.album;
+          if (song.artist)
+            title += ' - ' + song.artist;
+          if (song.year)
+            title += ' - ' + song.year;
+          return title;
         },
-
-        ready: function() {
-          this.points = [
-            'Accettare il regolamento ufficiale dei The Entropics',
-            'Essere accettato dagli altri membri',
-            'Pagare una tassa mensile calcolata in base al numero di membri corrente'
-          ];
+        test: function(data) {
+          console.log(data.detail.response);
         }
       });
     })();

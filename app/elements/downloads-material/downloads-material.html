@@ -1,18 +1,347 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<!--<link rel="import" href="file-handler.html">-->
 
-<dom-module id="info-material">
+<dom-module id="downloads-material" attributes="dir">
   <template>
-    <h2>Chi siamo</h2>
-    <p>Siamo un gruppo di studenti della classe 5CIA dell'ITIS J.F. Kennedy a Pordenone che hanno deciso di noleggiare un server.<br />
-    Abbiamo preso questa decisione principalmente per avere un server privato per i nostri videogiochi preferiti, ma poi abbiamo implementato una serie di servizi incredibili (come il forum, il server mail, ecc...).</p>
-    <h2>Come unirsi a noi</h2>
-    <p>Non devi fare niente di particolarmente complicato per unirti a noi, devi semplicemente:</p>
-    <ul>
-      <template is="dom-repeat" items="{{points}}">
-        <li><span>{{item}}</span></li>
+    <style is="custom-style">
+      .icon {
+        font-size: 23px;
+      }
+      .icon.folder {
+        display: inline-block;
+        margin: 1em;
+        background-color: transparent;
+        overflow: hidden;
+      }
+      .icon.folder:before {
+        content: '';
+        float: left;
+        background-color: #7ba1ad;
+
+        width: 1.5em;
+        height: 0.45em;
+
+        margin-left: 0.07em;
+        margin-bottom: -0.07em;
+
+        border-top-left-radius: 0.1em;
+        border-top-right-radius: 0.1em;
+
+        box-shadow: 1.25em 0.25em 0 0em #7ba1ad;
+      }
+      .icon.folder:after {
+        content: '';
+        float: left;
+        clear: left;
+
+        background-color: #a0d4e4;
+        width: 3em;
+        height: 2.25em;
+
+        border-radius: 0.1em;
+      }
+      .icon.folder.full:before {
+        height: 0.55em;
+      }
+      .icon.folder.full:after {
+        height: 2.15em;
+        box-shadow: 0 -0.12em 0 0 #ffffff;
+      }
+
+      .icon.file {
+        width: 2.5em;
+        height: 3em;
+        line-height: 3em;
+        text-align: center;
+        border-radius: 0.25em;
+        color: #FFF;
+        display: inline-block;
+        margin: 0.9em 1.2em 0.8em 1.3em;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 1.74em -2.1em 0 0 #A4A7AC inset;
+      }
+      .icon.file:first-line {
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .icon.file:after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        border-width: 0;
+        border-bottom: 2.6em solid #DADDE1;
+        border-right: 2.22em solid rgba(0, 0, 0, 0);
+        top: -34.5px;
+        right: -4px;
+      }
+
+      .icon.file.f-avi,
+      .icon.file.f-flv,
+      .icon.file.f-mkv,
+      .icon.file.f-mov,
+      .icon.file.f-mpeg,
+      .icon.file.f-mpg,
+      .icon.file.f-mp4,
+      .icon.file.f-m4v,
+      .icon.file.f-wmv {
+        box-shadow: 1.74em -2.1em 0 0 #7e70ee inset;
+      }
+      .icon.file.f-avi:after,
+      .icon.file.f-flv:after,
+      .icon.file.f-mkv:after,
+      .icon.file.f-mov:after,
+      .icon.file.f-mpeg:after,
+      .icon.file.f-mpg:after,
+      .icon.file.f-mp4:after,
+      .icon.file.f-m4v:after,
+      .icon.file.f-wmv:after {
+        border-bottom-color: #5649c1;
+      }
+
+      .icon.file.f-mp2,
+      .icon.file.f-mp3,
+      .icon.file.f-m3u,
+      .icon.file.f-wma,
+      .icon.file.f-xls,
+      .icon.file.f-xlsx {
+        box-shadow: 1.74em -2.1em 0 0 #5bab6e inset;
+      }
+      .icon.file.f-mp2:after,
+      .icon.file.f-mp3:after,
+      .icon.file.f-m3u:after,
+      .icon.file.f-wma:after,
+      .icon.file.f-xls:after,
+      .icon.file.f-xlsx:after {
+        border-bottom-color: #448353;
+      }
+
+      .icon.file.f-doc,
+      .icon.file.f-docx,
+      .icon.file.f-psd{
+        box-shadow: 1.74em -2.1em 0 0 #03689b inset;
+      }
+
+      .icon.file.f-doc:after,
+      .icon.file.f-docx:after,
+      .icon.file.f-psd:after {
+        border-bottom-color: #2980b9;
+      }
+
+      .icon.file.f-gif,
+      .icon.file.f-jpg,
+      .icon.file.f-jpeg,
+      .icon.file.f-pdf,
+      .icon.file.f-png {
+        box-shadow: 1.74em -2.1em 0 0 #e15955 inset;
+      }
+      .icon.file.f-gif:after,
+      .icon.file.f-jpg:after,
+      .icon.file.f-jpeg:after,
+      .icon.file.f-pdf:after,
+      .icon.file.f-png:after {
+        border-bottom-color: #c6393f;
+      }
+
+      .icon.file.f-deb,
+      .icon.file.f-dmg,
+      .icon.file.f-gz,
+      .icon.file.f-rar,
+      .icon.file.f-zip,
+      .icon.file.f-7z {
+        box-shadow: 1.74em -2.1em 0 0 #867c75 inset;
+      }
+      .icon.file.f-deb:after,
+      .icon.file.f-dmg:after,
+      .icon.file.f-gz:after,
+      .icon.file.f-rar:after,
+      .icon.file.f-zip:after,
+      .icon.file.f-7z:after {
+        border-bottom-color: #685f58;
+      }
+
+      .icon.file.f-html,
+      .icon.file.f-rtf,
+      .icon.file.f-xml,
+      .icon.file.f-xhtml {
+        box-shadow: 1.74em -2.1em 0 0 #a94bb7 inset;
+      }
+      .icon.file.f-html:after,
+      .icon.file.f-rtf:after,
+      .icon.file.f-xml:after,
+      .icon.file.f-xhtml:after {
+        border-bottom-color: #d65de8;
+      }
+
+      .icon.file.f-js {
+        box-shadow: 1.74em -2.1em 0 0 #d0c54d inset;
+      }
+      .icon.file.f-js:after {
+        border-bottom-color: #a69f4e;
+      }
+
+      .icon.file.f-css,
+      .icon.file.f-saas,
+      .icon.file.f-scss {
+        box-shadow: 1.74em -2.1em 0 0 #44afa6 inset;
+      }
+      .icon.file.f-css:after,
+      .icon.file.f-saas:after,
+      .icon.file.f-scss:after {
+        border-bottom-color: #30837c;
+      }
+      .nothingfound {
+        width: 23em;
+        height: 21em;
+        margin: 0 auto;
+        font-family: Arial;
+      }
+
+      .nothingfound .nofiles {
+        margin: 30px auto;
+        top: 3em;
+        border-radius: 50%;
+        position:relative;
+        width: 11em;
+        height: 11em;
+        line-height: 11.4em;
+      }
+      .nothingfound .nofiles:after {
+        content: '×';
+        position: absolute;
+        font-size: 14em;
+        margin-right: 0.092em;
+        color: red;
+        right: 0;
+      }
+      .nothingfound span {
+        margin: 0 auto auto 8.9em;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 20px;
+        height: 13px;
+        position: relative;
+        top: 2em;
+      }
+      .breadcrumbs {
+        @apply(--paper-font-headline);
+        color: black;
+        margin: 20px 16px 0 16px;
+        padding: 10px 15px;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: auto;
+        height: auto;
+      }
+      #breadcrumbsDiv {
+        width: 100%;
+        height: 90px;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      paper-card {
+        width: 307px;
+        height: 118px;
+        margin: 16px;
+        padding: 0.3em;
+        border-radius: 3px;
+        list-style-type: none;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+      .file-content {
+        @apply(--layout-flex);
+        float: left;
+      }
+      .file-name {
+        @apply(--paper-font-headline);
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 20px;
+        width: 150px;
+        white-space: nowrap;
+        display: inline-block;
+        position: absolute;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        top: 40px;
+        left: 125px;
+      }
+      .file-info {
+        color: var(--paper-grey-600);
+        font-size: 13px;
+        font-weight: 400;
+        width: 55px;
+        height: 10px;
+        top: 64px;
+        white-space: nowrap;
+        position: absolute;
+        display: inline-block;
+        left: 125px;
+      }
+      a:link, a:visited {
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .inherit {
+        color: inherit;
+        background-color: inherit;
+      }
+      .breadcrumbsArrow {
+        margin-bottom: 30px;
+      }
+    </style>
+
+    <iron-ajax auto url="scanDir.php" params="{{createParam(dir)}}" handle-as="json" last-response="{{data}}"></iron-ajax>
+    <div id="breadcrumbsDiv">
+      <a href="/downloads" class="inherit">
+        <paper-card class="breadcrumbs">
+          downloads
+          <paper-ripple />
+        </paper-card>
+      </a>
+      <template id="breadcrumbstemplate" is="dom-repeat" items="{{currentPath(dir)}}">
+        <iron-icon class="breadcrumbsArrow" icon="icons:arrow-forward"></iron-icon>
+        <a href="{{getLink(index)}}" class="inherit">
+          <paper-card class="breadcrumbs">
+            {{item}}
+            <paper-ripple />
+          </paper-card>
+        </a>
       </template>
-    </ul>
+    </div>
+    <div id="files">
+<!--      <template is="dom-if" if="{{isFile(data)}}">
+        <file-handler src="{{data.src}}" />
+      </template>-->
+      <template is="dom-if" if="{{isDir(data)}}">
+        <template is="dom-repeat" items="{{foldersFirst(data.files)}}">
+            <a href="{{item.link}}" class="inherit">
+              <paper-card>
+                <div class="file-name">{{item.name}}</div>
+                <div class="file-info">{{fileCountOrSize(item)}}</div>
+                <span class$="{{getClass(item)}}">{{getExt(item)}}</span>
+                <paper-ripple />
+              </paper-card>
+            </a>
+        </template>
+        <template is="dom-if" if="{{!data.files.length}}">
+          <paper-material elevation="1">
+            <div class="nothingfound">
+              <div class="nofiles"></div>
+              <span>Nessun file</span>
+            </div>
+          </paper-material>
+        </template>
+      </template>
+    </div>
   </template>
 
   <script>
@@ -21,20 +350,54 @@
 
       Polymer({
         is: 'downloads-material',
-
-        properties: {
-          points: {
-            type: Array,
-            notify: true,
-          }
+        createParam: function(dir) {
+          return { 'dir': dir };
         },
-
-        ready: function() {
-          this.points = [
-            'Accettare il regolamento ufficiale dei The Entropics',
-            'Essere accettato dagli altri membri',
-            'Pagare una tassa mensile calcolata in base al numero di membri corrente'
-          ];
+        currentPath: function(dir) {
+          var array = dir.split('/');
+          var newArray = [];
+          for (var i = 0; i < array.length; i++)
+            if (array[i] !== undefined && array[i] !== null && array[i] !== "")
+              newArray.push(array[i]);
+          return newArray;
+        },
+        getLink: function(index) {
+          return '/downloads/' + this.$.breadcrumbstemplate.items.slice(0, index + 1).join('/');
+        },
+        isDir: function(dir) {
+          return dir && dir.type === 'folder';
+        },
+        isFile: function(dir) {
+          if (!dir.type)
+            return false;
+          return dir === 'file';
+        },
+        foldersFirst: function(files) {
+          if(!files) return 0;
+          return files.sort(function(a, b) {
+            // Sort by folders...
+            if (a.type > b.type) return -1;
+            if (a.type < b.type) return 1;
+            // ...and then by name
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          });
+        },
+        fileCountOrSize: function(item) {
+          if (typeof item.files !== "undefined")
+            return item.files + ((item.files == 1) ? ' elemento' : ' elementi');
+          var i = Math.floor(Math.log(item.size) / Math.log(1024));
+          return (item.size / Math.pow(1024, i)).toFixed(2) * 1 + '' + [' byte', 'kB', 'MB', 'GB', 'TB'][i];
+        },
+        getClass: function(item) {
+          if (typeof item.files !== "undefined") {
+            return (item.files > 0) ? 'icon folder full' : 'icon folder';
+          }
+          return 'icon file f-' + item.name.substr(item.name.lastIndexOf('.') + 1);
+        },
+        getExt: function(item) {
+          return (typeof item.files === "undefined") ? item.name.substr(item.name.lastIndexOf('.')) : '';
         }
       });
     })();

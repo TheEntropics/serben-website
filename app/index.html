@@ -11,15 +11,16 @@
 
 <html>
 	<head>
+		<base href="/">
 		<!-- Website charset -->
 		<meta charset="utf-8">
 		<!-- Ensures Internet Explorer uses the latest engine -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!-- Website description -->
-		<meta name="description" content="The Entropics' official website. Increase the entropy.">
+		<meta name="description" content="The Entropics official app. Increase the entropy.">
 		<!-- Disables zooming on mobile phones to make the website responsive -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<meta name="generator" content="Polymer Starter Kit">
+		<meta name="generator" content="The Entropics Web App">
 		<title>The Entropics</title>
 
 		
@@ -81,11 +82,9 @@
 		<div unresolved>
 			<span id="browser-sync-binding"></span>
 			<template is="dom-bind" id="app">
-
 				<paper-drawer-panel id="paperDrawerPanel">
 					<!-- Drawer Scroll Header Panel -->
 					<paper-scroll-header-panel drawer fixed>
-
 						<!-- Drawer Toolbar -->
 						<paper-toolbar id="drawerToolbar">
 							<img class="te-logo" src="images/icons/android-chrome-192x192.png" alt="The Entropics" />
@@ -134,12 +133,14 @@
 								<iron-icon icon="icons:info"></iron-icon>
 								<span>Informazioni</span>
 							</a>
-							<!-- Login -->
-							<a style="position: absolute; bottom: 0; width: 100%;" href="">
-								<iron-icon icon="communication:contacts"></iron-icon>
-								<span>Login</span>
-								<paper-ripple />
-							</a>
+							<!-- Login/Logout -->
+							<template is="dom-if" if="{{!isLoggedIn()}}">
+								<a href="" onclick="app.$.loginDialog.open()">
+									<iron-icon icon="communication:contacts"></iron-icon>
+									<span>Login</span>
+									<paper-ripple />
+								</a>
+							</template>
 						</paper-menu>
 					</paper-scroll-header-panel>
 
@@ -152,8 +153,8 @@
 							<span class="space"></span>
 
 							<!-- Toolbar icons -->
-							<paper-icon-button icon="refresh"></paper-icon-button>
-							<paper-icon-button icon="search"></paper-icon-button>
+<!--							<paper-icon-button icon="refresh"></paper-icon-button>
+							<paper-icon-button icon="search"></paper-icon-button>-->
 
 							<!-- Application name -->
 							<div class="middle middle-container">
@@ -199,7 +200,7 @@
 								</section>
 
 								<section data-route="downloads">
-									<downloads-material />
+									<downloads-material dir$="{{params}}" />
 								</section>
 
 								<section data-route="members">
@@ -211,10 +212,13 @@
 										<info-material />
 									</paper-material>
 								</section>
+
 							</iron-pages>
 						</div>
 					</paper-scroll-header-panel>
 				</paper-drawer-panel>
+
+				<login-dialog id="loginDialog" />
 
 				<paper-toast id="toast">
 					<span class="toast-hide-button" role="button" tabindex="0" onclick="app.$.toast.hide()">Ok</span>

@@ -1,0 +1,40 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/pdf-element/pdf-element.html">
+
+<dom-module id="file-handler" attributes="src">
+  <template>
+    <style is="custom-style">
+    </style>
+    <template is="dom-if" if="isPDF()">
+      <pdf-element src="[[src]]" downloadable show-file-name />
+    </template>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'file-handler',
+
+        properties: {
+          fileExt: {
+            type: String,
+            computed: 'getExt(src)',
+            notify: true
+          }
+        },
+
+        getExt: function(file) {
+          console.log(file);
+          return file.substr(file.lastIndexOf('.') + 1).toLowerCase();
+        },
+        isPDF: function() {
+          console.log('ciao');
+          return this.fileExt === 'pdf';
+        }
+      });
+    })();
+  </script>
+</dom-module>

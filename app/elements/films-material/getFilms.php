@@ -3,6 +3,6 @@
     include_once("functions.php");
 	
 	$root = "/home/downloads/download/Film";
-	$link = "http://downloads.serben.tk/Film";
+	$link = "https://download:GiuCarico@downloads.serben.tk/Film";
 	
     echo getFilmsJSON($link, $root);

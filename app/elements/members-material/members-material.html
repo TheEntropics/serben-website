@@ -43,6 +43,7 @@
       }
 	  paper-button.link {
 	    color: var(--paper-gray-800);
+      text-decoration: none;
 	  }
 	  paper-button.link:hover {
 	    background-color: var(--paper-indigo-100);
@@ -53,14 +54,17 @@
 	  	border-radius: 0 20px 0 0 !important;
 	  }
 	  iron-image {
-		width: 100%;
+		  width: 100%;
 	  }
+    paper-card {
+       --paper-card-header-color: white;
+    }
     </style>
 
     <iron-ajax auto url="getUsersInfo.php" handle-as="json" last-response="{{data}}"></iron-ajax>
     <div id="cards">
     <template id="cardstemplate" is="dom-repeat" items="{{data}}">
-      <paper-card heading="{{item.nick}}" style$="--paper-card-header-color: {{item.col}}" image="{{item.img}}">
+      <paper-card heading="{{item.nick}}" image="{{item.img}}">  <!--style$="--paper-card-header-color: {{item.col}}" image="{{item.img}}">-->
         <div class="card-actions">
           <a href="http://{{item.name}}.serben.tk" target="{{item.name}}" class="inherit">
             <paper-button class="link">Vai al sito</paper-button>
@@ -119,8 +123,10 @@
 
         ready: function() {
           this.$.cardstemplate.addEventListener('dom-change', function() {
-            /*var avatars = document.getElementsByClassName('avatar');
-            for (var i = 0; i < avatars.length; i++) {
+/*            for (var i = 0; i < avatars.length; i++) {
+              console.log(avatars[i]);
+              avatars[i].setAttribute("--paper-card-header-color", "white !important");
+            }
               var colors = this.getColorFromName(avatars[i].dataset.name);
               avatars[i].style.color = colors.color;
               avatars[i].style.background = colors.background;
