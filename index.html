@@ -1,169 +1,68 @@
-<!DOCTYPE html>
-<html data-ng-app="entropicsApp" data-ng-controller="mainController">
-	<head>
-		<!-- Website charset -->
-		<meta charset="utf-8">
-		<!-- Ensures Internet Explorer uses the latest engine -->
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<!-- Website description -->
-		<meta name="description" content="The Entropics' official website. Increase the entropy.">
-		<!-- Disables zooming on mobile phones to make the website responsive -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		
-		<!-- Favicon -->
-			<!-- Allows the website to be pinned as a mobile web app -->
-			<meta name="mobile-web-app-capable" content="yes">
-			<!-- For iOS - Web Clip -->
-			<meta name="apple-mobile-web-app-title" content="The Entropics">
-			<link rel="apple-touch-icon" sizes="57x57" href="img/icons/apple-touch-icon-57x57.png">
-			<link rel="apple-touch-icon" sizes="60x60" href="img/icons/apple-touch-icon-60x60.png">
-			<link rel="apple-touch-icon" sizes="72x72" href="img/icons/apple-touch-icon-72x72.png">
-			<link rel="apple-touch-icon" sizes="76x76" href="img/icons/apple-touch-icon-76x76.png">
-			<link rel="apple-touch-icon" sizes="114x114" href="img/icons/apple-touch-icon-114x114.png">
-			<link rel="apple-touch-icon" sizes="120x120" href="img/icons/apple-touch-icon-120x120.png">
-			<link rel="apple-touch-icon" sizes="144x144" href="img/icons/apple-touch-icon-144x144.png">
-			<link rel="apple-touch-icon" sizes="152x152" href="img/icons/apple-touch-icon-152x152.png">
-			<link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon-180x180.png">
-			<!-- For Android Chrome -->
-			<meta name="theme-color" content="#36459A">
-			<link rel="icon" type="image/png" href="img/icons/android-chrome-192x192.png" sizes="192x192">
-			<link rel="manifest" href="img/icons/manifest.json">
-			<!-- For Safari Pinned Tab -->
-			<link rel="mask-icon" href="img/icons/safari-pinned-tab.svg" color="#36459A">
-			<!-- For Windows 8 and 10 -->
-			<meta name="application-name" content="The Entropics">
-			<meta name="msapplication-TileColor" content="#ffffff">
-			<meta name="msapplication-TileImage" content="img/icons/mstile-144x144.png">
-			<meta name="msapplication-config" content="img/icons/browserconfig.xml">
-			<!-- For Desktop browsers -->
-			<link rel="icon" type="image/png" href="img/icons/favicon-16x16.png" sizes="16x16">
-			<link rel="icon" type="image/png" href="img/icons/favicon-32x32.png" sizes="32x32">
-			<link rel="icon" type="image/png" href="img/icons/favicon-96x96.png" sizes="96x96">
-			<link rel="shortcut icon" href="img/icons/favicon.ico">
-		<!-- /Favicon -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>The Entropics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The Entropics official app, beware of imitations.">
 
-		<!-- Title of the page. Changes dynamically according to the current page -->
-		<title data-ng-bind="Page.getTitle() + ' - The Entropics'">The Entropics</title>
+    <!--
+      The `<base>` tag below is present to support two advanced deployment options:
+      1) Differential serving. 2) Serving from a non-root path.
 
-		<!-- CSS -->
-			<!-- Roboto font -->
-			<link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium' type="text/css">
-			<!-- Main stylesheet -->
-			<link rel="stylesheet" href="css/style.css" type="text/css">
-			<!-- Material Design icons -->
-			<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-			<!-- MDL stylesheet -->
-			<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-blue.min.css">
-			<!-- Snackbar CSS -->
-			<link rel="stylesheet" href="css/snackbar.min.css">
-		<!-- /CSS -->
+      Instead of manually editing the `<base>` tag yourself, you should generally either:
+      a) Add a `basePath` property to the build configuration in your `polymer.json`.
+      b) Use the `--base-path` command-line option for `polymer build`.
+    -->
+    <base href="/">
 
-		<!-- Javascript -->
-			<!-- JQuery -->
-			<script src="https://code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
-			<!-- Hammer.JS -->
-			<script src="js/hammer.min.js" type="text/javascript"></script>
-			<!-- Hammer.JS JQuery plugin -->
-			<script src="js/jquery.hammer.js" type="text/javascript"></script>
-			<!-- Material JS -->
-			<script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js" type="text/javascript"></script>
-			<!-- Snackbar JS -->
-			<script src="js/snackbar.min.js" type="text/javascript"></script>
-			<!-- reCAPTCHA -->
-			<script src='https://www.google.com/recaptcha/api.js'></script>
+    <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <script defer src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script type="module" src="src/components/shell.js" crossorigin></script>
+    <script>
+      // Load and register pre-caching Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('service-worker.js', {
+            scope: '/',
+          });
+        });
+      }
 
-			<!-- AngularJS -->
-				<!-- Main -->
-				<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" type="text/javascript"></script>
-				<!-- Route module -->
-				<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.min.js" type="text/javascript"></script>
-				<!-- Resource module -->
-				<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.min.js" type="text/javascript"></script>
-				<!-- App -->
-				<script src="js/app.js" type="text/javascript"></script>
-				<!-- Controllers -->
-				<script src="js/controllers.js" type="text/javascript"></script>
-			<!-- /AngularJS -->
+      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+      // https://github.com/reactjs/redux/issues/2907
+      window.process = { env: { NODE_ENV: 'production' } };
+    </script>
 
-			<!-- Main script -->
-			<script src="js/main.js" type="text/javascript"></script>
-		<!-- /Javascript -->
-	</head>
-	<body data-ng-class="(windowStatus == 'onblur') ? 'blurred' : ''">
-		<div id="loading">
-			<div class="loading-spinner mdl-spinner mdl-js-spinner is-active"></div>
-		</div>
-		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" style="display:none;">
-			<!-- Header -->
-				<header class="mdl-layout__header mdl-layout__header--waterfall">
-					<div class="mdl-layout__header-row">
-						<!-- Title -->
-						<span class="material-icons">{{Page.getLogo()}}</span>
-						<span class="mdl-layout-title">&nbsp;&nbsp;{{Page.getTitle()}}</span>
-						<!-- Add spacer, to align navigation to the right -->
-						<div class="mdl-layout-spacer"></div>
-						<!-- Display the search bar on every page but the Home and the Informations pages -->
-						<div data-ng-show="(Page.getTitle() != 'Home') && (Page.getTitle() != 'Informazioni')" class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floatidata-ng-label mdl-textfield--align-right">
-							<label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
-								<i class="material-icons">search</i>
-							</label>
-							<div class="mdl-textfield__expandable-holder">
-								<input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp" />
-							</div>
-						</div>
-					</div>
-				</header>
-			<!-- /Header -->
-			<!-- Sidebar -->
-				<div class="mdl-layout__drawer">
-					<span class="mdl-color--indigo-600 mdl-color-text--white mdl-layout-title"><img class="te-logo" src="img/icons/android-chrome-192x192.png" alt="The Entropics" />The Entropics</span>
-					<nav class="navigation-bar mdl-navigation">
-						<!-- Home -->
-						<a class="mdl-navigation__link" href="#/home" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">home</i>{{translation.home.title}}</a>
-						<!-- Services -->
-						<a class="mdl-navigation__link" href="#/services" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">developer_board</i>{{translation.services.title}}</a>
-						<!-- Films -->
-						<a data-ng-if="logged" class="mdl-navigation__link" href="#/films" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">theaters</i>{{translation.films.title}}</a>
-						<!-- Music -->
-						<a data-ng-if="logged" class="mdl-navigation__link" href="#/music" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">headset</i>{{translation.music.title}}</a>
-						<!-- Downloads -->
-						<a data-ng-if="logged" class="mdl-navigation__link" href="#/downloads" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">file_download</i>{{translation.downloads.title}}</a>
-						<!-- Members -->
-						<a class="mdl-navigation__link" href="#/members" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">face</i>{{translation.members.title}}</a>
-						<!-- Informations -->
-						<a class="mdl-navigation__link" href="#/info" data-ng-click="HideSideBar()"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">info_outline</i>{{translation.info.title}}</a>
-						<!-- Add a spacer to push the login/logout on the bottom of the sidebar -->
-						<div class="mdl-layout-spacer"></div>
-						<!-- Login -->
-						<a data-ng-if="!logged" class="mdl-navigation__link" href="" data-ng-click="HideSideBar(); ShowLogin();"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">face</i>Login</a>
-						<!-- Logout -->
-						<a data-ng-if="logged" class="mdl-navigation__link" href="" data-ng-click="HideSideBar(); Logout();"><i class="mdl-color-text--blue-grey-700 material-icons" role="presentation">exit_to_app</i>Logout</a>
-					</nav>
-				</div>
-			<!-- /Sidebar -->
-			<main class="mdl-layout__content">
-				<!-- Include the login window -->
-				<div data-ng-include="'html/login.html'" data-ng-controller="loginController"></div>
-				<!-- Main content -->
-					<div class="page-content">
-						<div class="main-container mdl-grid">
-							<div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-							<!-- The content of the page will be displayed in this div -->
-							<div data-ng-class="isSmallScreen ? '': 'main-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col'" data-ng-view></div>
-						</div>
-					</div>
-				<!-- /Main content -->
-				<!-- Add spacer to push footer down when not enough content -->
-				<div class="mdl-layout-spacer"></div>
-				<!-- Footer -->
-					<footer class="mdl-mini-footer">
-						<div class="mdl-mini-footer--middle-section">
-							<div class="mdl-logo" id="copyright"></div>
-						</div>
-					</footer>
-				<!-- /Footer -->
-			</main>
-		</div>
-		<div id="loaded" data-ng-cloak>{{loaded}}</div>
-	</body>
+    <!-- Add any global styles for body, document, etc. -->
+    <style>
+      @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459WdhyyTh89ZNpQ.woff2) format('woff2');
+        /* THe browser draws the text immediately in the fallback font if the font
+           isn't loaded, then swaps it with the webfont when it eventually loads
+           See: https://developers.google.com/web/updates/2016/02/font-display
+        */
+        font-display: swap;
+      }
+
+      body {
+        margin: 0;
+        /* This is a font-stack that tries to use the system-default sans-serifs as fallback while Montserrat loads */
+        font-family: Montserrat, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        line-height: 1.5;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+  </head>
+  <body>
+    <te-shell></te-shell>
+    <noscript>
+      Please enable JavaScript to view this website.
+    </noscript>
+  </body>
 </html>
