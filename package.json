@@ -6,7 +6,8 @@
   "repository": "TheEntropics/serben-website",
   "scripts": {
     "start": "polymer serve",
-    "build": "polymer build --auto-base-path"
+    "build": "polymer build --auto-base-path",
+    "serve": "prpl-server --root build/ --host 0.0.0.0 --https-redirect --bot-proxy https://render-tron.appspot.com/render"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.1",
