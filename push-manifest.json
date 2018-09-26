@@ -1,0 +1,8 @@
+{
+  "/": {
+    "src/components/shell.js": {
+      "type": "script",
+      "weight": 1
+    }
+  }
+}
