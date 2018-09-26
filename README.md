@@ -5,9 +5,3 @@ We honestly needed a website because the old one was pretty much useless, so we 
 In this new website you will be able to view and edit (if you're allowed) any service installed on the server.
 
 It is fully responsive and it is completely made in material design, because we love it.
-
-This website uses:
-- **MDL (Material Design Lite)**, a library made by Google to give the website a Material Design look and feel
-- **AngularJS**, a framework made by Google to create nice single page applications
-- **JQuery**, a library that allows easier HTML document elements manipulation
-- **Hammer.JS**, a library used to add touch gestures to a website
